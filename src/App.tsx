@@ -17,7 +17,6 @@ import About from "./pages/About";
 import Contact from "./pages/Contact";
 import AdminLogin from "./pages/AdminLogin";
 import InfluencerLogin from "./pages/InfluencerLogin";
-import InfluencerLogin from "./pages/InfluencerLogin";
 import AdminLayout from "./components/AdminLayout";
 import BrandLayout from "./components/BrandLayout";
 import InfluencerDashboardLayout from "./components/InfluencerDashboardLayout";
