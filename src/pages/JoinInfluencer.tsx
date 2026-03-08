@@ -23,7 +23,7 @@ const JoinInfluencer = () => {
   const [submitted, setSubmitted] = useState(false);
   const [form, setForm] = useState({
     name: "", email: "", phone: "", instagram: "", youtube: "",
-    category: "", followers: "", engagement: "", bio: "", photo: "",
+    category: "", followers: "", engagement: "", bio: "", photo: "", password: "",
   });
 
   const update = (key: string, value: string) => setForm(prev => ({ ...prev, [key]: value }));
@@ -126,6 +126,11 @@ const JoinInfluencer = () => {
             <div className="space-y-2">
               <Label className="text-muted-foreground">YouTube Channel Link</Label>
               <Input value={form.youtube} onChange={e => update("youtube", e.target.value)} placeholder="https://youtube.com/@yourchannel" className="bg-surface-card border-border" />
+            </div>
+
+            <div className="space-y-2">
+              <Label className="text-muted-foreground">Password *</Label>
+              <Input type="password" value={form.password} onChange={e => update("password", e.target.value)} placeholder="Create a password for your account" className="bg-surface-card border-border" required />
             </div>
 
             <div className="space-y-2">
