@@ -2,7 +2,7 @@ import { useState, useMemo } from "react";
 import { motion } from "framer-motion";
 import SectionHeading from "@/components/SectionHeading";
 import InfluencerCard from "@/components/InfluencerCard";
-import { getApprovedInfluencers } from "@/lib/adminStore";
+import { getPublicInfluencers } from "@/lib/adminStore";
 import { Button } from "@/components/ui/button";
 
 const platforms = ["All", "Instagram", "YouTube"];
@@ -12,8 +12,7 @@ const Marketplace = () => {
   const [platform, setPlatform] = useState("All");
   const [category, setCategory] = useState("All");
 
-  // Read influencers from admin store (dynamically updated by admin)
-  const allInfluencers = getApprovedInfluencers();
+  const allInfluencers = getPublicInfluencers();
 
   const filtered = useMemo(() => {
     return allInfluencers
@@ -70,7 +69,7 @@ const Marketplace = () => {
           </motion.div>
 
           {filtered.length === 0 && (
-            <p className="text-center text-muted-foreground mt-12">No influencers available yet. Check back soon!</p>
+            <p className="text-center text-muted-foreground mt-12">No approved influencers available yet.</p>
           )}
         </div>
       </section>

@@ -38,6 +38,7 @@ export interface ApprovedInfluencer {
   photo: string;
   profileLink: string;
   date: string;
+  status: "pending" | "approved" | "rejected";
 }
 
 export interface CampaignRequest {
@@ -125,11 +126,12 @@ export const rejectApplication = (id: string) => {
 
 // Approved Influencers
 export const getApprovedInfluencers = () => getItems<ApprovedInfluencer>("admin_influencers");
-export const addInfluencer = (inf: Omit<ApprovedInfluencer, "id" | "date">) => {
+export const addInfluencer = (inf: Omit<ApprovedInfluencer, "id" | "date" | "status">) => {
   const items = getApprovedInfluencers();
-  items.unshift({ ...inf, id: genId(), date: new Date().toISOString() });
+  items.unshift({ ...inf, id: genId(), date: new Date().toISOString(), status: "pending" });
   setItems("admin_influencers", items);
 };
+export const getPublicInfluencers = () => getApprovedInfluencers().filter(i => i.status === "approved");
 export const deleteInfluencer = (id: string) => {
   setItems("admin_influencers", getApprovedInfluencers().filter(i => i.id !== id));
 };

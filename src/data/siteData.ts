@@ -1,19 +1,3 @@
-import { type Influencer } from "@/components/InfluencerCard";
-
-export const influencers: Influencer[] = [
-  { name: "Sarah Chen", niche: "Fashion", followers: "1.2M", engagement: "4.8%", avatar: "", platform: "Instagram" },
-  { name: "Alex Rivera", niche: "Tech", followers: "890K", engagement: "5.2%", avatar: "", platform: "YouTube" },
-  { name: "Emma Wilson", niche: "Fitness", followers: "2.1M", engagement: "6.1%", avatar: "", platform: "Instagram" },
-  { name: "Jordan Lee", niche: "Gaming", followers: "3.5M", engagement: "7.3%", avatar: "", platform: "YouTube" },
-  { name: "Mia Johnson", niche: "Beauty", followers: "1.8M", engagement: "5.5%", avatar: "", platform: "Instagram" },
-  { name: "Noah Kim", niche: "Travel", followers: "950K", engagement: "4.2%", avatar: "", platform: "YouTube" },
-  { name: "Olivia Park", niche: "Fashion", followers: "1.5M", engagement: "5.9%", avatar: "", platform: "Instagram" },
-  { name: "Liam Carter", niche: "Fitness", followers: "750K", engagement: "6.8%", avatar: "", platform: "Instagram" },
-  { name: "Sophia Davis", niche: "Beauty", followers: "2.3M", engagement: "4.5%", avatar: "", platform: "Instagram" },
-  { name: "Lucas Wright", niche: "Tech", followers: "1.1M", engagement: "5.0%", avatar: "", platform: "YouTube" },
-  { name: "Ava Martinez", niche: "Travel", followers: "680K", engagement: "7.1%", avatar: "", platform: "Instagram" },
-  { name: "Ethan Brown", niche: "Gaming", followers: "4.2M", engagement: "8.2%", avatar: "", platform: "YouTube" },
-];
 
 export const testimonials = [
   { name: "Michael Torres", role: "CMO, TechVibe", quote: "InfluenceHub helped us achieve a 340% ROI on our latest campaign. The platform's data-driven approach is unmatched." },

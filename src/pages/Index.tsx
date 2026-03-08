@@ -5,7 +5,8 @@ import { ArrowRight, Sparkles } from "lucide-react";
 import AnimatedCounter from "@/components/AnimatedCounter";
 import SectionHeading from "@/components/SectionHeading";
 import InfluencerCard from "@/components/InfluencerCard";
-import { influencers, testimonials, trustedBrands } from "@/data/siteData";
+import { testimonials, trustedBrands } from "@/data/siteData";
+import { getPublicInfluencers } from "@/lib/adminStore";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 30 },
@@ -81,21 +82,28 @@ const Index = () => {
       </section>
 
       {/* Featured Influencers */}
-      <section className="dark-section section-padding">
-        <div className="container mx-auto">
-          <SectionHeading title="Featured Influencers" subtitle="Top creators ready to amplify your brand" />
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {influencers.slice(0, 4).map((inf, i) => (
-              <InfluencerCard key={i} influencer={inf} index={i} />
-            ))}
-          </div>
-          <div className="text-center mt-10">
-            <Button variant="outline" className="border-primary/30 hover:bg-primary/10" asChild>
-              <Link to="/marketplace">View All Influencers <ArrowRight className="w-4 h-4 ml-2" /></Link>
-            </Button>
-          </div>
-        </div>
-      </section>
+      {(() => {
+        const approved = getPublicInfluencers().slice(0, 4).map(inf => ({
+          name: inf.name, niche: inf.category, followers: inf.followers, engagement: inf.engagement, avatar: inf.photo || "", platform: inf.platform,
+        }));
+        return approved.length > 0 ? (
+          <section className="dark-section section-padding">
+            <div className="container mx-auto">
+              <SectionHeading title="Featured Influencers" subtitle="Top creators ready to amplify your brand" />
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                {approved.map((inf, i) => (
+                  <InfluencerCard key={i} influencer={inf} index={i} />
+                ))}
+              </div>
+              <div className="text-center mt-10">
+                <Button variant="outline" className="border-primary/30 hover:bg-primary/10" asChild>
+                  <Link to="/marketplace">View All Influencers <ArrowRight className="w-4 h-4 ml-2" /></Link>
+                </Button>
+              </div>
+            </div>
+          </section>
+        ) : null;
+      })()}
 
       {/* Testimonials */}
       <section className="section-padding">
