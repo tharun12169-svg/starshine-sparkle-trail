@@ -104,7 +104,7 @@ const JoinInfluencer = () => {
               </div>
               <div className="space-y-2">
                 <Label className="text-muted-foreground">Phone Number</Label>
-                <Input value={form.phone} onChange={e => update("phone", e.target.value)} placeholder="+1 (555) 123-4567" className="bg-surface-card border-border" />
+                <Input value={form.phone} onChange={e => update("phone", e.target.value)} placeholder="+91 5551234567" className="bg-surface-card border-border" />
               </div>
               <div className="space-y-2">
                 <Label className="text-muted-foreground">Category / Niche *</Label>
