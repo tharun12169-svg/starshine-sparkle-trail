@@ -1,4 +1,5 @@
 // localStorage-based admin store
+import { seedInfluencers } from "@/data/seedInfluencers";
 
 export interface AdminMessage {
   id: string;
