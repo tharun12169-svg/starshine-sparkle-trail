@@ -22,7 +22,7 @@ const Contact = () => {
       toast.error("Please enter a valid WhatsApp number (minimum 10 digits).");
       return;
     }
-    addMessage({ name: form.name, email: form.email, subject: form.subject, message: form.message });
+    addMessage({ name: form.name, email: form.email, whatsapp: form.whatsapp, subject: form.subject, message: form.message });
     toast.success("Message sent! We'll get back to you soon.");
     setForm({ name: "", email: "", whatsapp: "", subject: "", message: "" });
   };
