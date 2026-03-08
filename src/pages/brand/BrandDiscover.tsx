@@ -83,7 +83,7 @@ const BrandDiscover = () => {
             <div className="flex items-start justify-between mb-4">
               <div className="flex items-center gap-3">
                 <div className="w-12 h-12 rounded-full gradient-bg flex items-center justify-center text-primary-foreground font-bold font-display overflow-hidden">
-                  {inf.photo ? <img src={inf.photo} alt={inf.name} className="w-full h-full object-cover" /> : inf.name[0]}
+                  {inf.photo ? <img src={inf.photo} alt={inf.name} className="w-full h-full object-cover" /> : inf.name.split(" ").map(w => w[0]).join("").slice(0, 2)}
                 </div>
                 <div>
                   <h3 className="font-display font-semibold">{inf.name}</h3>
