@@ -4,6 +4,7 @@ import { getApprovedInfluencers, deleteInfluencer, updateInfluencer } from "@/li
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import PhotoUpload from "@/components/PhotoUpload";
 import { Users, Trash2, Edit, ExternalLink, X, Check, ShieldCheck, Clock, ShieldX } from "lucide-react";
 import { toast } from "sonner";
 import { Link } from "react-router-dom";
