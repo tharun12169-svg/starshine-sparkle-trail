@@ -6,6 +6,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import SectionHeading from "@/components/SectionHeading";
+import PhotoUpload from "@/components/PhotoUpload";
 import { addApplication } from "@/lib/adminStore";
 import { toast } from "sonner";
 import { CheckCircle, DollarSign, Handshake, Megaphone, Star } from "lucide-react";
