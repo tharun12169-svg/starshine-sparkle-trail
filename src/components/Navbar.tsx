@@ -1,9 +1,15 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import ThemeToggle from "@/components/ThemeToggle";
 import { motion, AnimatePresence } from "framer-motion";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const navLinks = [
   { label: "Home", path: "/" },
@@ -45,8 +51,19 @@ const Navbar = () => {
 
         <div className="hidden lg:flex items-center gap-3">
           <ThemeToggle />
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button size="sm" variant="outline" className="border-primary/30">
+                Login <ChevronDown className="w-3 h-3 ml-1" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem asChild><Link to="/brand-login">Brand Login</Link></DropdownMenuItem>
+              <DropdownMenuItem asChild><Link to="/influencer-login">Influencer Login</Link></DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
           <Button size="sm" className="gradient-bg border-0 text-primary-foreground" asChild>
-            <Link to="/contact">Get Started</Link>
+            <Link to="/brand-register">Get Started</Link>
           </Button>
         </div>
 
@@ -78,9 +95,17 @@ const Navbar = () => {
                   {link.label}
                 </Link>
               ))}
-              <Button className="gradient-bg border-0 text-primary-foreground mt-2" asChild>
-                <Link to="/contact" onClick={() => setMobileOpen(false)}>Get Started</Link>
-              </Button>
+              <div className="border-t border-border pt-3 mt-1 space-y-2">
+                <Button variant="outline" className="w-full border-primary/30" asChild>
+                  <Link to="/brand-login" onClick={() => setMobileOpen(false)}>Brand Login</Link>
+                </Button>
+                <Button variant="outline" className="w-full border-primary/30" asChild>
+                  <Link to="/influencer-login" onClick={() => setMobileOpen(false)}>Influencer Login</Link>
+                </Button>
+                <Button className="w-full gradient-bg border-0 text-primary-foreground" asChild>
+                  <Link to="/brand-register" onClick={() => setMobileOpen(false)}>Get Started</Link>
+                </Button>
+              </div>
             </div>
           </motion.div>
         )}
