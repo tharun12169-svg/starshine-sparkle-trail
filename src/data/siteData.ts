@@ -74,8 +74,6 @@ export const pricingPlans = [
 ];
 
 export const teamMembers = [
-  { name: "Rachel Foster", role: "CEO & Founder", bio: "Former VP of Marketing at a Fortune 500 company." },
-  { name: "James Chen", role: "CTO", bio: "Ex-Google engineer with 15 years in ad tech." },
-  { name: "Amara Okafor", role: "Head of Partnerships", bio: "Built influencer networks spanning 50+ countries." },
-  { name: "Marcus Reeves", role: "Creative Director", bio: "Award-winning creative with brands like Nike and Apple." },
+  { name: "Harshit", role: "Co-Founder of InfluenceHub", bio: "" },
+  { name: "Gagan", role: "Co-Founder of InfluenceHub", bio: "" },
 ];

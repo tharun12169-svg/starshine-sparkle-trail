@@ -43,7 +43,7 @@ const About = () => (
     <section className="dark-section section-padding">
       <div className="container mx-auto">
         <SectionHeading title="Meet the Team" subtitle="The people behind InfluenceHub" />
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 max-w-2xl mx-auto">
           {teamMembers.map((m, i) => (
             <motion.div key={i} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
               transition={{ delay: i * 0.1 }} className="glow-card rounded-xl p-8 text-center">
@@ -51,8 +51,7 @@ const About = () => (
                 {m.name[0]}
               </div>
               <h3 className="font-display font-semibold">{m.name}</h3>
-              <p className="text-primary text-sm mb-2">{m.role}</p>
-              <p className="text-muted-foreground text-sm">{m.bio}</p>
+              <p className="text-primary text-sm">{m.role}</p>
             </motion.div>
           ))}
         </div>
