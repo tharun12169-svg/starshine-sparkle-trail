@@ -9,7 +9,7 @@ import { toast } from "sonner";
 import { addMessage } from "@/lib/adminStore";
 
 const Contact = () => {
-  const [form, setForm] = useState({ name: "", email: "", subject: "", message: "" });
+  const [form, setForm] = useState({ name: "", email: "", whatsapp: "", subject: "", message: "" });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -17,10 +17,14 @@ const Contact = () => {
       toast.error("Please fill in all required fields.");
       return;
     }
-    // Store message for admin
+    const digits = form.whatsapp.replace(/\D/g, "");
+    if (digits.length < 10) {
+      toast.error("Please enter a valid WhatsApp number (minimum 10 digits).");
+      return;
+    }
     addMessage({ name: form.name, email: form.email, subject: form.subject, message: form.message });
     toast.success("Message sent! We'll get back to you soon.");
-    setForm({ name: "", email: "", subject: "", message: "" });
+    setForm({ name: "", email: "", whatsapp: "", subject: "", message: "" });
   };
 
   return (
