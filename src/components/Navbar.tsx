@@ -45,11 +45,8 @@ const Navbar = () => {
 
         <div className="hidden lg:flex items-center gap-3">
           <ThemeToggle />
-          <Button variant="ghost" size="sm" asChild>
-            <Link to="/contact">Get Started</Link>
-          </Button>
           <Button size="sm" className="gradient-bg border-0 text-primary-foreground" asChild>
-            <Link to="/admin">Dashboard</Link>
+            <Link to="/contact">Get Started</Link>
           </Button>
         </div>
 
@@ -82,7 +79,7 @@ const Navbar = () => {
                 </Link>
               ))}
               <Button className="gradient-bg border-0 text-primary-foreground mt-2" asChild>
-                <Link to="/admin" onClick={() => setMobileOpen(false)}>Dashboard</Link>
+                <Link to="/contact" onClick={() => setMobileOpen(false)}>Get Started</Link>
               </Button>
             </div>
           </motion.div>
