@@ -11,7 +11,7 @@ const Footer = () => {
           {/* Brand */}
           <div>
             <div className="flex items-center gap-2 mb-4">
-              <div className="w-8 h-8 rounded-lg gradient-bg" />
+              <img src="/logo.png" alt="InfluenceHub" className="w-8 h-8 rounded-lg object-cover" />
               <span className="font-display font-bold text-xl text-foreground">InfluenceHub</span>
             </div>
             <p className="text-muted-foreground text-sm mb-6">
