@@ -15,7 +15,7 @@ export interface InfluencerApplication {
   name: string;
   email: string;
   phone: string;
-  youtube: string;
+  instagram: string;
   category: string;
   followers: string;
   engagement: string;
