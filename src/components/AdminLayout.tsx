@@ -11,7 +11,7 @@ import ThemeToggle from "@/components/ThemeToggle";
 
 const menuItems = [
   { icon: LayoutDashboard, label: "Dashboard", path: "/admin/dashboard" },
-  { icon: MessageSquare, label: "Messages", path: "/admin/messages" },
+  { icon: MessageSquare, label: "Brand Messages", path: "/admin/messages" },
   { icon: UserCheck, label: "Applications", path: "/admin/applications" },
   { icon: Users, label: "Influencers", path: "/admin/influencers" },
   { icon: UserPlus, label: "Add Influencer", path: "/admin/add-influencer" },
