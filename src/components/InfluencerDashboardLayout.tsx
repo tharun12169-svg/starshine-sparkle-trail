@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate, Outlet } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  LayoutDashboard, Megaphone, MessageSquare, LogOut, Menu, X, ChevronRight
+  LayoutDashboard, Megaphone, MessageSquare, LogOut, Menu, X, ChevronRight, Settings
 } from "lucide-react";
 import { getInfluencerSession, influencerLogout } from "@/lib/adminStore";
 import { Button } from "@/components/ui/button";
@@ -12,6 +12,7 @@ const menuItems = [
   { icon: LayoutDashboard, label: "Dashboard", path: "/influencer/dashboard" },
   { icon: Megaphone, label: "Campaign Requests", path: "/influencer/campaigns" },
   { icon: MessageSquare, label: "Messages", path: "/influencer/messages" },
+  { icon: Settings, label: "Settings", path: "/influencer/settings" },
 ];
 
 const InfluencerDashboardLayout = () => {

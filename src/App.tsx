@@ -38,6 +38,7 @@ import BrandAnalytics from "./pages/brand/BrandAnalytics";
 import InfluencerDashboard from "./pages/influencer/InfluencerDashboard";
 import InfluencerCampaigns from "./pages/influencer/InfluencerCampaigns";
 import InfluencerMessages from "./pages/influencer/InfluencerMessages";
+import InfluencerSettings from "./pages/influencer/InfluencerSettings";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -101,6 +102,7 @@ const App = () => (
               <Route path="dashboard" element={<InfluencerDashboard />} />
               <Route path="campaigns" element={<InfluencerCampaigns />} />
               <Route path="messages" element={<InfluencerMessages />} />
+              <Route path="settings" element={<InfluencerSettings />} />
             </Route>
 
             <Route path="*" element={<PublicLayout><NotFound /></PublicLayout>} />

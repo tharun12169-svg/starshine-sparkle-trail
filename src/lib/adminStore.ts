@@ -15,7 +15,6 @@ export interface InfluencerApplication {
   name: string;
   email: string;
   phone: string;
-  instagram: string;
   youtube: string;
   category: string;
   followers: string;
@@ -184,13 +183,13 @@ export const approveApplication = (id: string) => {
     id: genId(),
     name: app.name,
     email: app.email,
-    platform: app.instagram ? "Instagram" : "YouTube",
+    platform: app.youtube ? "YouTube" : "Other",
     category: app.category,
     followers: app.followers,
     engagement: app.engagement,
     bio: app.bio,
     photo: app.photo,
-    profileLink: app.instagram || app.youtube,
+    profileLink: app.youtube,
     date: new Date().toISOString(),
     status: "approved" as const,
   });

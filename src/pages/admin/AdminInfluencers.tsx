@@ -4,6 +4,7 @@ import { getApprovedInfluencers, deleteInfluencer, updateInfluencer } from "@/li
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import PhotoUpload from "@/components/PhotoUpload";
 import { Users, Trash2, Edit, ExternalLink, X, Check, ShieldCheck, Clock, ShieldX } from "lucide-react";
 import { toast } from "sonner";
 import { Link } from "react-router-dom";
@@ -17,7 +18,7 @@ const statusColors = {
 const AdminInfluencers = () => {
   const [influencers, setInfluencers] = useState(getApprovedInfluencers());
   const [editingId, setEditingId] = useState<string | null>(null);
-  const [editData, setEditData] = useState({ name: "", category: "", platform: "", followers: "", engagement: "", profileLink: "" });
+  const [editData, setEditData] = useState({ name: "", category: "", platform: "", followers: "", engagement: "", profileLink: "", photo: "" });
   const [filter, setFilter] = useState<"all" | "pending" | "approved" | "rejected">("all");
 
   const refresh = () => setInfluencers(getApprovedInfluencers());
@@ -38,7 +39,7 @@ const AdminInfluencers = () => {
     setEditingId(inf.id);
     setEditData({
       name: inf.name, category: inf.category, platform: inf.platform,
-      followers: inf.followers, engagement: inf.engagement, profileLink: inf.profileLink || "",
+      followers: inf.followers, engagement: inf.engagement, profileLink: inf.profileLink || "", photo: inf.photo || "",
     });
   };
 
@@ -85,6 +86,13 @@ const AdminInfluencers = () => {
 
               {editingId === inf.id ? (
                 <div className="space-y-3">
+                  <PhotoUpload
+                    currentPhoto={editData.photo}
+                    name={editData.name}
+                    size="sm"
+                    onPhotoChange={(url) => setEditData({ ...editData, photo: url })}
+                    onPhotoRemove={() => setEditData({ ...editData, photo: "" })}
+                  />
                   <div><Label className="text-xs">Name</Label><Input value={editData.name} onChange={e => setEditData({ ...editData, name: e.target.value })} className="h-8 text-sm" /></div>
                   <div className="grid grid-cols-2 gap-2">
                     <div><Label className="text-xs">Category</Label><Input value={editData.category} onChange={e => setEditData({ ...editData, category: e.target.value })} className="h-8 text-sm" /></div>

@@ -6,6 +6,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import SectionHeading from "@/components/SectionHeading";
+import PhotoUpload from "@/components/PhotoUpload";
 import { addApplication } from "@/lib/adminStore";
 import { toast } from "sonner";
 import { CheckCircle, DollarSign, Handshake, Megaphone, Star } from "lucide-react";
@@ -22,7 +23,7 @@ const benefits = [
 const JoinInfluencer = () => {
   const [submitted, setSubmitted] = useState(false);
   const [form, setForm] = useState({
-    name: "", email: "", phone: "", instagram: "", youtube: "",
+    name: "", email: "", phone: "", youtube: "",
     category: "", followers: "", engagement: "", bio: "", photo: "", password: "",
   });
 
@@ -32,10 +33,6 @@ const JoinInfluencer = () => {
     e.preventDefault();
     if (!form.name.trim() || !form.email.trim() || !form.category) {
       toast.error("Please fill in all required fields.");
-      return;
-    }
-    if (!form.instagram.trim() && !form.youtube.trim()) {
-      toast.error("Please provide at least one platform link.");
       return;
     }
     addApplication(form);
@@ -119,12 +116,7 @@ const JoinInfluencer = () => {
             </div>
 
             <div className="space-y-2">
-              <Label className="text-muted-foreground">Instagram Profile Link</Label>
-              <Input value={form.instagram} onChange={e => update("instagram", e.target.value)} placeholder="https://instagram.com/yourprofile" className="bg-surface-card border-border" />
-            </div>
-
-            <div className="space-y-2">
-              <Label className="text-muted-foreground">YouTube Channel Link</Label>
+              <Label className="text-muted-foreground">YouTube Channel Link (Optional)</Label>
               <Input value={form.youtube} onChange={e => update("youtube", e.target.value)} placeholder="https://youtube.com/@yourchannel" className="bg-surface-card border-border" />
             </div>
 
@@ -134,8 +126,13 @@ const JoinInfluencer = () => {
             </div>
 
             <div className="space-y-2">
-              <Label className="text-muted-foreground">Profile Photo URL</Label>
-              <Input value={form.photo} onChange={e => update("photo", e.target.value)} placeholder="https://..." className="bg-surface-card border-border" />
+              <Label className="text-muted-foreground">Profile Photo (Optional)</Label>
+              <PhotoUpload
+                currentPhoto={form.photo}
+                name={form.name}
+                onPhotoChange={(url) => update("photo", url)}
+                onPhotoRemove={() => update("photo", "")}
+              />
             </div>
 
             <div className="space-y-2">
