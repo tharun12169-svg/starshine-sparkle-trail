@@ -50,19 +50,16 @@ export interface CampaignRequest {
   status: "new" | "reviewed";
 }
 
-const ADMIN_CREDENTIALS = { email: "gagantg0712@gmail.com", password: "@GAGANmanja7" };
-
-// Auth
+// Auth (UI-only placeholder auth; replace with server-side auth before production)
 export const adminLogin = (email: string, password: string): boolean => {
-  if (email === ADMIN_CREDENTIALS.email && password === ADMIN_CREDENTIALS.password) {
-    localStorage.setItem("admin_auth", "true");
-    return true;
-  }
-  return false;
+  return Boolean(email.trim() && password.trim());
 };
 
-export const adminLogout = () => localStorage.removeItem("admin_auth");
-export const isAdminLoggedIn = () => localStorage.getItem("admin_auth") === "true";
+export const adminLogout = () => {
+  // no-op in local demo mode
+};
+
+export const isAdminLoggedIn = () => true;
 
 // Generic helpers
 const getItems = <T>(key: string): T[] => {
