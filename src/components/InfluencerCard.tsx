@@ -51,10 +51,11 @@ const InfluencerCard = ({ influencer, index = 0 }: InfluencerCardProps) => {
       <div className="flex items-center gap-1"><TrendingUp className="w-3.5 h-3.5" />{influencer.engagement}</div>
     </div>
     <span className="text-xs text-muted-foreground mb-4">{influencer.platform}</span>
-    <Button size="sm" variant="outline" className="w-full border-primary/30 hover:bg-primary/10 hover:text-primary">
+    <Button size="sm" variant="outline" className="w-full border-primary/30 hover:bg-primary/10 hover:text-primary" onClick={handleContact}>
       Contact
     </Button>
   </motion.div>
-);
+  );
+};
 
 export default InfluencerCard;
