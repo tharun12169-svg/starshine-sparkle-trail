@@ -35,10 +35,6 @@ const JoinInfluencer = () => {
       toast.error("Please fill in all required fields.");
       return;
     }
-    if (!form.instagram.trim() && !form.youtube.trim()) {
-      toast.error("Please provide at least one platform link.");
-      return;
-    }
     addApplication(form);
     setSubmitted(true);
     toast.success("Application submitted successfully!");
