@@ -9,7 +9,7 @@ import { toast } from "sonner";
 import { addMessage } from "@/lib/adminStore";
 
 const Contact = () => {
-  const [form, setForm] = useState({ name: "", email: "", subject: "", message: "" });
+  const [form, setForm] = useState({ name: "", email: "", whatsapp: "", subject: "", message: "" });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -17,10 +17,14 @@ const Contact = () => {
       toast.error("Please fill in all required fields.");
       return;
     }
-    // Store message for admin
+    const digits = form.whatsapp.replace(/\D/g, "");
+    if (digits.length < 10) {
+      toast.error("Please enter a valid WhatsApp number (minimum 10 digits).");
+      return;
+    }
     addMessage({ name: form.name, email: form.email, subject: form.subject, message: form.message });
     toast.success("Message sent! We'll get back to you soon.");
-    setForm({ name: "", email: "", subject: "", message: "" });
+    setForm({ name: "", email: "", whatsapp: "", subject: "", message: "" });
   };
 
   return (
@@ -33,6 +37,7 @@ const Contact = () => {
               onSubmit={handleSubmit} className="space-y-4">
               <Input placeholder="Your Name *" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} />
               <Input placeholder="Email *" type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} />
+              <Input placeholder="+91 98765 43210 *" type="tel" value={form.whatsapp} onChange={(e) => setForm({ ...form, whatsapp: e.target.value })} />
               <Input placeholder="Subject" value={form.subject} onChange={(e) => setForm({ ...form, subject: e.target.value })} />
               <Textarea placeholder="Your Message *" rows={6} value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} />
               <Button type="submit" className="w-full gradient-bg border-0 text-primary-foreground">Send Message</Button>
