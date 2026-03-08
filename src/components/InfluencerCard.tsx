@@ -36,7 +36,7 @@ const InfluencerCard = ({ influencer, index = 0 }: InfluencerCardProps) => {
       {influencer.avatar ? (
         <img src={influencer.avatar} alt={influencer.name} className="w-full h-full object-cover" />
       ) : (
-        influencer.name[0]
+        influencer.name.split(" ").map(w => w[0]).join("").slice(0, 2)
       )}
     </div>
     <h3 className="font-display font-semibold text-lg mb-1">{influencer.name}</h3>
