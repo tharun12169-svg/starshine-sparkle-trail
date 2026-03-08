@@ -21,7 +21,7 @@ const InfluencerCard = ({ influencer, index = 0 }: InfluencerCardProps) => {
   const navigate = useNavigate();
 
   const handleContact = () => {
-    navigate("/contact");
+    window.open("https://wa.me/918431825949?text=Hello%20I%20would%20like%20to%20know%20more%20about%20InfluenceHub", "_blank");
   };
 
   return (
