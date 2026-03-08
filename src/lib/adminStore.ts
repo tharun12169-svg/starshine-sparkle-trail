@@ -117,6 +117,7 @@ export const approveApplication = (id: string) => {
     photo: app.photo,
     profileLink: app.instagram || app.youtube,
     date: new Date().toISOString(),
+    status: "approved" as const,
   });
   setItems("admin_influencers", influencers);
 };
