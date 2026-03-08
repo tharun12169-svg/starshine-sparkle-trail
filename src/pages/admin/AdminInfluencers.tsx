@@ -18,7 +18,7 @@ const statusColors = {
 const AdminInfluencers = () => {
   const [influencers, setInfluencers] = useState(getApprovedInfluencers());
   const [editingId, setEditingId] = useState<string | null>(null);
-  const [editData, setEditData] = useState({ name: "", category: "", platform: "", followers: "", engagement: "", profileLink: "" });
+  const [editData, setEditData] = useState({ name: "", category: "", platform: "", followers: "", engagement: "", profileLink: "", photo: "" });
   const [filter, setFilter] = useState<"all" | "pending" | "approved" | "rejected">("all");
 
   const refresh = () => setInfluencers(getApprovedInfluencers());
