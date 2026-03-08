@@ -51,7 +51,8 @@ const About = () => (
                 {m.name[0]}
               </div>
               <h3 className="font-display font-semibold">{m.name}</h3>
-              <p className="text-primary text-sm">{m.role}</p>
+              <p className="text-primary text-sm mb-2">{m.role}</p>
+              <p className="text-muted-foreground text-sm">{m.bio}</p>
             </motion.div>
           ))}
         </div>
