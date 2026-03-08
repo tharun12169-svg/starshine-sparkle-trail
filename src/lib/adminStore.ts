@@ -205,8 +205,6 @@ export const rejectApplication = (id: string) => {
 export const getApprovedInfluencers = (): ApprovedInfluencer[] => {
   const items = getItems<ApprovedInfluencer>("admin_influencers");
   if (items.length === 0) {
-    // Seed default influencers on first load
-    const { seedInfluencers } = require("@/data/seedInfluencers");
     setItems("admin_influencers", seedInfluencers);
     return seedInfluencers;
   }
