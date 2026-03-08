@@ -29,10 +29,18 @@ const JoinInfluencer = () => {
 
   const update = (key: string, value: string) => setForm(prev => ({ ...prev, [key]: value }));
 
+  const validateInstagram = (value: string) => {
+    return value.startsWith("@") || value.startsWith("https://instagram.com/");
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!form.name.trim() || !form.email.trim() || !form.category) {
+    if (!form.name.trim() || !form.email.trim() || !form.category || !form.instagram.trim()) {
       toast.error("Please fill in all required fields.");
+      return;
+    }
+    if (!validateInstagram(form.instagram)) {
+      toast.error("Instagram must start with @ or https://instagram.com/");
       return;
     }
     addApplication(form);
