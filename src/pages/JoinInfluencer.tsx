@@ -116,12 +116,7 @@ const JoinInfluencer = () => {
             </div>
 
             <div className="space-y-2">
-              <Label className="text-muted-foreground">Instagram Profile Link</Label>
-              <Input value={form.instagram} onChange={e => update("instagram", e.target.value)} placeholder="https://instagram.com/yourprofile" className="bg-surface-card border-border" />
-            </div>
-
-            <div className="space-y-2">
-              <Label className="text-muted-foreground">YouTube Channel Link</Label>
+              <Label className="text-muted-foreground">YouTube Channel Link (Optional)</Label>
               <Input value={form.youtube} onChange={e => update("youtube", e.target.value)} placeholder="https://youtube.com/@yourchannel" className="bg-surface-card border-border" />
             </div>
 
@@ -131,8 +126,13 @@ const JoinInfluencer = () => {
             </div>
 
             <div className="space-y-2">
-              <Label className="text-muted-foreground">Profile Photo URL</Label>
-              <Input value={form.photo} onChange={e => update("photo", e.target.value)} placeholder="https://..." className="bg-surface-card border-border" />
+              <Label className="text-muted-foreground">Profile Photo (Optional)</Label>
+              <PhotoUpload
+                currentPhoto={form.photo}
+                name={form.name}
+                onPhotoChange={(url) => update("photo", url)}
+                onPhotoRemove={() => update("photo", "")}
+              />
             </div>
 
             <div className="space-y-2">
