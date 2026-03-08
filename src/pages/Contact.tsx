@@ -37,7 +37,7 @@ const Contact = () => {
               onSubmit={handleSubmit} className="space-y-4">
               <Input placeholder="Your Name *" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} />
               <Input placeholder="Email *" type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} />
-              <Input placeholder="+91 98765 43210 *" type="tel" value={form.whatsapp} onChange={(e) => setForm({ ...form, whatsapp: e.target.value })} />
+              <Input placeholder="WhatsApp No *" type="tel" value={form.whatsapp} onChange={(e) => setForm({ ...form, whatsapp: e.target.value })} />
               <Input placeholder="Subject" value={form.subject} onChange={(e) => setForm({ ...form, subject: e.target.value })} />
               <Textarea placeholder="Your Message *" rows={6} value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} />
               <Button type="submit" className="w-full gradient-bg border-0 text-primary-foreground">Send Message</Button>
