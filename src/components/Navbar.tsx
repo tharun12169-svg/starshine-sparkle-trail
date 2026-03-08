@@ -50,19 +50,11 @@ const Navbar = () => {
 
         <div className="hidden lg:flex items-center gap-3">
           <ThemeToggle />
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button size="sm" variant="outline" className="border-primary/30">
-                Login <ChevronDown className="w-3 h-3 ml-1" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem asChild><Link to="/brand-login">Brand Login</Link></DropdownMenuItem>
-              <DropdownMenuItem asChild><Link to="/influencer-login">Influencer Login</Link></DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <Button size="sm" variant="outline" className="border-primary/30" asChild>
+            <Link to="/influencer-login">Influencer Login</Link>
+          </Button>
           <Button size="sm" className="gradient-bg border-0 text-primary-foreground" asChild>
-            <Link to="/brand-register">Get Started</Link>
+            <Link to="/join-influencer">Join as Influencer</Link>
           </Button>
         </div>
 
