@@ -6,11 +6,12 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import PhotoUpload from "@/components/PhotoUpload";
 import { addInfluencer } from "@/lib/adminStore";
 import { toast } from "sonner";
 
 const categories = ["Fashion", "Tech", "Fitness", "Gaming", "Beauty", "Travel", "Food"];
-const platforms = ["Instagram", "YouTube"];
+const platforms = ["YouTube", "Instagram", "TikTok", "Other"];
 
 const AdminAddInfluencer = () => {
   const navigate = useNavigate();
@@ -34,6 +35,16 @@ const AdminAddInfluencer = () => {
   return (
     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
       <form onSubmit={handleSubmit} className="glow-card rounded-xl p-6 max-w-2xl space-y-5">
+        <div className="space-y-2">
+          <Label className="text-muted-foreground">Profile Photo (Optional)</Label>
+          <PhotoUpload
+            currentPhoto={form.photo}
+            name={form.name}
+            onPhotoChange={(url) => update("photo", url)}
+            onPhotoRemove={() => update("photo", "")}
+          />
+        </div>
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="space-y-2">
             <Label className="text-muted-foreground">Name *</Label>
@@ -68,13 +79,8 @@ const AdminAddInfluencer = () => {
         </div>
 
         <div className="space-y-2">
-          <Label className="text-muted-foreground">Profile Photo URL</Label>
-          <Input value={form.photo} onChange={e => update("photo", e.target.value)} placeholder="https://..." className="bg-surface-card border-border" />
-        </div>
-
-        <div className="space-y-2">
           <Label className="text-muted-foreground">Social Profile Link</Label>
-          <Input value={form.profileLink} onChange={e => update("profileLink", e.target.value)} placeholder="https://instagram.com/..." className="bg-surface-card border-border" />
+          <Input value={form.profileLink} onChange={e => update("profileLink", e.target.value)} placeholder="https://youtube.com/@..." className="bg-surface-card border-border" />
         </div>
 
         <div className="space-y-2">

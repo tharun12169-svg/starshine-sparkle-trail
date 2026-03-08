@@ -39,7 +39,7 @@ const AdminInfluencers = () => {
     setEditingId(inf.id);
     setEditData({
       name: inf.name, category: inf.category, platform: inf.platform,
-      followers: inf.followers, engagement: inf.engagement, profileLink: inf.profileLink || "",
+      followers: inf.followers, engagement: inf.engagement, profileLink: inf.profileLink || "", photo: inf.photo || "",
     });
   };
 
