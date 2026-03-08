@@ -12,6 +12,7 @@ const menuItems = [
   { icon: LayoutDashboard, label: "Dashboard", path: "/influencer/dashboard" },
   { icon: Megaphone, label: "Campaign Requests", path: "/influencer/campaigns" },
   { icon: MessageSquare, label: "Messages", path: "/influencer/messages" },
+  { icon: Settings, label: "Settings", path: "/influencer/settings" },
 ];
 
 const InfluencerDashboardLayout = () => {

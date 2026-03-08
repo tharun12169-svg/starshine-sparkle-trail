@@ -102,6 +102,7 @@ const App = () => (
               <Route path="dashboard" element={<InfluencerDashboard />} />
               <Route path="campaigns" element={<InfluencerCampaigns />} />
               <Route path="messages" element={<InfluencerMessages />} />
+              <Route path="settings" element={<InfluencerSettings />} />
             </Route>
 
             <Route path="*" element={<PublicLayout><NotFound /></PublicLayout>} />

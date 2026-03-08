@@ -117,7 +117,7 @@ const AdminApplications = () => {
                 <div><span className="text-muted-foreground">Engagement:</span> {viewApp.engagement}</div>
                 <div><span className="text-muted-foreground">Applied:</span> {new Date(viewApp.date).toLocaleDateString()}</div>
               </div>
-              {viewApp.instagram && <div><span className="text-muted-foreground">Instagram:</span> {viewApp.instagram}</div>}
+              {viewApp.youtube && <div><span className="text-muted-foreground">YouTube:</span> {viewApp.youtube}</div>}
               {viewApp.youtube && <div><span className="text-muted-foreground">YouTube:</span> {viewApp.youtube}</div>}
               <div className="border-t border-border pt-3">
                 <span className="text-muted-foreground">Bio:</span>
