@@ -86,6 +86,13 @@ const AdminInfluencers = () => {
 
               {editingId === inf.id ? (
                 <div className="space-y-3">
+                  <PhotoUpload
+                    currentPhoto={editData.photo}
+                    name={editData.name}
+                    size="sm"
+                    onPhotoChange={(url) => setEditData({ ...editData, photo: url })}
+                    onPhotoRemove={() => setEditData({ ...editData, photo: "" })}
+                  />
                   <div><Label className="text-xs">Name</Label><Input value={editData.name} onChange={e => setEditData({ ...editData, name: e.target.value })} className="h-8 text-sm" /></div>
                   <div className="grid grid-cols-2 gap-2">
                     <div><Label className="text-xs">Category</Label><Input value={editData.category} onChange={e => setEditData({ ...editData, category: e.target.value })} className="h-8 text-sm" /></div>
