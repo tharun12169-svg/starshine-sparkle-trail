@@ -82,28 +82,32 @@ const Index = () => {
       </section>
 
       {/* Featured Influencers */}
-      {(() => {
-        const approved = getPublicInfluencers().slice(0, 4).map(inf => ({
-          name: inf.name, niche: inf.category, followers: inf.followers, engagement: inf.engagement, avatar: inf.photo || "", platform: inf.platform,
-        }));
-        return approved.length > 0 ? (
-          <section className="dark-section section-padding">
-            <div className="container mx-auto">
-              <SectionHeading title="Featured Influencers" subtitle="Top creators ready to amplify your brand" />
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                {approved.map((inf, i) => (
-                  <InfluencerCard key={i} influencer={inf} index={i} />
-                ))}
-              </div>
-              <div className="text-center mt-10">
-                <Button variant="outline" className="border-primary/30 hover:bg-primary/10" asChild>
-                  <Link to="/marketplace">View All Influencers <ArrowRight className="w-4 h-4 ml-2" /></Link>
-                </Button>
-              </div>
-            </div>
-          </section>
-        ) : null;
-      })()}
+      <section className="dark-section section-padding">
+        <div className="container mx-auto">
+          <SectionHeading title="Featured Influencers" subtitle="Top creators ready to amplify your brand" />
+          {(() => {
+            const approved = getPublicInfluencers().map(inf => ({
+              name: inf.name, niche: inf.category, followers: inf.followers, engagement: inf.engagement, avatar: inf.photo || "", platform: inf.platform,
+            }));
+            return approved.length > 0 ? (
+              <>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                  {approved.map((inf, i) => (
+                    <InfluencerCard key={i} influencer={inf} index={i} />
+                  ))}
+                </div>
+                <div className="text-center mt-10">
+                  <Button variant="outline" className="border-primary/30 hover:bg-primary/10" asChild>
+                    <Link to="/marketplace">View All Influencers <ArrowRight className="w-4 h-4 ml-2" /></Link>
+                  </Button>
+                </div>
+              </>
+            ) : (
+              <p className="text-center text-muted-foreground">No approved influencers available yet.</p>
+            );
+          })()}
+        </div>
+      </section>
 
       {/* Testimonials */}
       <section className="section-padding">
