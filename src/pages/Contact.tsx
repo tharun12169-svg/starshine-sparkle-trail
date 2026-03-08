@@ -48,12 +48,12 @@ const Contact = () => {
               <div>
                 <h3 className="font-display font-semibold text-lg mb-4">Contact Information</h3>
                 <div className="space-y-4 text-muted-foreground">
-                  <div className="flex items-center gap-3"><Mail className="w-5 h-5 text-primary" /> hello@influencehub.com</div>
-                  <a href="https://wa.me/919876543210?text=Hello%2C%20I%20would%20like%20to%20know%20more%20about%20InfluenceHub." target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 hover:text-primary transition-colors">
-                    <MessageCircle className="w-5 h-5 text-primary" /> WhatsApp: +91 98765 43210
+                  <div className="flex items-center gap-3"><Mail className="w-5 h-5 text-primary" /> influencehubinsta@gmail.com</div>
+                  <a href="https://wa.me/918431825949?text=Hello%2C%20I%20would%20like%20to%20know%20more%20about%20InfluenceHub." target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 hover:text-primary transition-colors">
+                    <MessageCircle className="w-5 h-5 text-primary" /> WhatsApp: +91 84318 25949
                   </a>
-                  <div className="flex items-center gap-3"><Phone className="w-5 h-5 text-primary" /> +91 98765 43210</div>
-                  <div className="flex items-center gap-3"><MapPin className="w-5 h-5 text-primary" /> San Francisco, CA</div>
+                  <div className="flex items-center gap-3"><Phone className="w-5 h-5 text-primary" /> +91 84318 25949</div>
+                  <div className="flex items-center gap-3"><MapPin className="w-5 h-5 text-primary" /> Bangalore, India</div>
                 </div>
               </div>
               <div>
