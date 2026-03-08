@@ -23,7 +23,7 @@ const benefits = [
 const JoinInfluencer = () => {
   const [submitted, setSubmitted] = useState(false);
   const [form, setForm] = useState({
-    name: "", email: "", phone: "", youtube: "",
+    name: "", email: "", phone: "", instagram: "",
     category: "", followers: "", engagement: "", bio: "", photo: "", password: "",
   });
 
