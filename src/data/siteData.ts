@@ -74,6 +74,6 @@ export const pricingPlans = [
 ];
 
 export const teamMembers = [
-  { name: "Harshit", role: "Co-Founder of InfluenceHub", bio: "" },
-  { name: "Gagan", role: "Co-Founder of InfluenceHub", bio: "" },
+  { name: "Harshit", role: "Co-Founder of InfluenceHub", bio: "Passionate about bridging the gap between brands and creators. Drives product strategy and platform growth." },
+  { name: "Gagan", role: "Co-Founder of InfluenceHub", bio: "Tech enthusiast with a vision for data-driven influencer marketing. Leads engineering and platform development." },
 ];
