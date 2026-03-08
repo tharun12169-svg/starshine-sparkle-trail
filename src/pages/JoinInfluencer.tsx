@@ -23,16 +23,24 @@ const benefits = [
 const JoinInfluencer = () => {
   const [submitted, setSubmitted] = useState(false);
   const [form, setForm] = useState({
-    name: "", email: "", phone: "", youtube: "",
+    name: "", email: "", phone: "", instagram: "",
     category: "", followers: "", engagement: "", bio: "", photo: "", password: "",
   });
 
   const update = (key: string, value: string) => setForm(prev => ({ ...prev, [key]: value }));
 
+  const validateInstagram = (value: string) => {
+    return value.startsWith("@") || value.startsWith("https://instagram.com/");
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!form.name.trim() || !form.email.trim() || !form.category) {
+    if (!form.name.trim() || !form.email.trim() || !form.category || !form.instagram.trim()) {
       toast.error("Please fill in all required fields.");
+      return;
+    }
+    if (!validateInstagram(form.instagram)) {
+      toast.error("Instagram must start with @ or https://instagram.com/");
       return;
     }
     addApplication(form);
@@ -96,7 +104,7 @@ const JoinInfluencer = () => {
               </div>
               <div className="space-y-2">
                 <Label className="text-muted-foreground">Phone Number</Label>
-                <Input value={form.phone} onChange={e => update("phone", e.target.value)} placeholder="+1 (555) 123-4567" className="bg-surface-card border-border" />
+                <Input value={form.phone} onChange={e => update("phone", e.target.value)} placeholder="+91 5551234567" className="bg-surface-card border-border" />
               </div>
               <div className="space-y-2">
                 <Label className="text-muted-foreground">Category / Niche *</Label>
@@ -116,8 +124,8 @@ const JoinInfluencer = () => {
             </div>
 
             <div className="space-y-2">
-              <Label className="text-muted-foreground">YouTube Channel Link (Optional)</Label>
-              <Input value={form.youtube} onChange={e => update("youtube", e.target.value)} placeholder="https://youtube.com/@yourchannel" className="bg-surface-card border-border" />
+              <Label className="text-muted-foreground">Instagram Username or Profile Link *</Label>
+              <Input value={form.instagram} onChange={e => update("instagram", e.target.value)} placeholder="@username or https://instagram.com/username" className="bg-surface-card border-border" required />
             </div>
 
             <div className="space-y-2">
