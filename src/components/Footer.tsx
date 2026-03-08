@@ -39,7 +39,7 @@ const Footer = () => {
           <div>
             <h4 className="font-display font-semibold mb-4 text-foreground">Services</h4>
             <div className="flex flex-col gap-2">
-              {[["Marketplace", "/marketplace"], ["For Brands", "/for-brands"], ["For Influencers", "/for-influencers"], ["Dashboard", "/admin"]].map(([label, path]) => (
+              {[["Marketplace", "/marketplace"], ["For Brands", "/for-brands"], ["For Influencers", "/for-influencers"], ["Login", "/admin-login"]].map(([label, path]) => (
                 <Link key={path} to={path} className="text-sm text-muted-foreground hover:text-primary transition-colors">{label}</Link>
               ))}
             </div>
@@ -58,9 +58,6 @@ const Footer = () => {
 
         <div className="border-t border-border mt-12 pt-8 flex flex-col sm:flex-row items-center justify-between gap-2 text-sm text-muted-foreground">
           <span>© {new Date().getFullYear()} InfluenceHub. All rights reserved.</span>
-          <Link to="/admin-login" className="text-xs text-muted-foreground/50 hover:text-muted-foreground transition-colors">
-            Admin Login
-          </Link>
         </div>
       </div>
     </footer>

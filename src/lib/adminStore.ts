@@ -50,16 +50,24 @@ export interface CampaignRequest {
   status: "new" | "reviewed";
 }
 
-// Auth (UI-only placeholder auth; replace with server-side auth before production)
+// Auth
+const ADMIN_SESSION_KEY = "admin_logged_in";
+
 export const adminLogin = (email: string, password: string): boolean => {
-  return Boolean(email.trim() && password.trim());
+  if (email.trim() && password.trim()) {
+    localStorage.setItem(ADMIN_SESSION_KEY, "true");
+    return true;
+  }
+  return false;
 };
 
 export const adminLogout = () => {
-  // no-op in local demo mode
+  localStorage.removeItem(ADMIN_SESSION_KEY);
 };
 
-export const isAdminLoggedIn = () => true;
+export const isAdminLoggedIn = (): boolean => {
+  return localStorage.getItem(ADMIN_SESSION_KEY) === "true";
+};
 
 // Generic helpers
 const getItems = <T>(key: string): T[] => {
@@ -94,9 +102,7 @@ export const approveApplication = (id: string) => {
   const apps = getApplications();
   const app = apps.find(a => a.id === id);
   if (!app) return;
-  // Update status
   setItems("admin_applications", apps.map(a => a.id === id ? { ...a, status: "approved" as const } : a));
-  // Add to approved influencers
   const influencers = getApprovedInfluencers();
   influencers.unshift({
     id: genId(),

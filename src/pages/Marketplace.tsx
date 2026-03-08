@@ -2,7 +2,7 @@ import { useState, useMemo } from "react";
 import { motion } from "framer-motion";
 import SectionHeading from "@/components/SectionHeading";
 import InfluencerCard from "@/components/InfluencerCard";
-import { influencers } from "@/data/siteData";
+import { getApprovedInfluencers } from "@/lib/adminStore";
 import { Button } from "@/components/ui/button";
 
 const platforms = ["All", "Instagram", "YouTube"];
@@ -12,13 +12,25 @@ const Marketplace = () => {
   const [platform, setPlatform] = useState("All");
   const [category, setCategory] = useState("All");
 
+  // Read influencers from admin store (dynamically updated by admin)
+  const allInfluencers = getApprovedInfluencers();
+
   const filtered = useMemo(() => {
-    return influencers.filter((inf) => {
-      if (platform !== "All" && inf.platform !== platform) return false;
-      if (category !== "All" && inf.niche !== category) return false;
-      return true;
-    });
-  }, [platform, category]);
+    return allInfluencers
+      .map(inf => ({
+        name: inf.name,
+        niche: inf.category,
+        followers: inf.followers,
+        engagement: inf.engagement,
+        avatar: inf.photo || "",
+        platform: inf.platform,
+      }))
+      .filter((inf) => {
+        if (platform !== "All" && inf.platform !== platform) return false;
+        if (category !== "All" && inf.niche !== category) return false;
+        return true;
+      });
+  }, [platform, category, allInfluencers]);
 
   return (
     <div className="pt-24">
@@ -53,12 +65,12 @@ const Marketplace = () => {
           {/* Grid */}
           <motion.div layout className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {filtered.map((inf, i) => (
-              <InfluencerCard key={inf.name} influencer={inf} index={i} />
+              <InfluencerCard key={inf.name + i} influencer={inf} index={i} />
             ))}
           </motion.div>
 
           {filtered.length === 0 && (
-            <p className="text-center text-muted-foreground mt-12">No influencers match your filters. Try adjusting your criteria.</p>
+            <p className="text-center text-muted-foreground mt-12">No influencers available yet. Check back soon!</p>
           )}
         </div>
       </section>
