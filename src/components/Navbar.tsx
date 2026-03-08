@@ -14,7 +14,6 @@ import {
 const navLinks = [
   { label: "Home", path: "/" },
   { label: "Marketplace", path: "/marketplace" },
-  { label: "For Brands", path: "/for-brands" },
   { label: "For Influencers", path: "/for-influencers" },
   { label: "Case Studies", path: "/case-studies" },
   { label: "Pricing", path: "/pricing" },
