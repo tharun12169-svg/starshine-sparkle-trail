@@ -4,6 +4,7 @@ export interface AdminMessage {
   id: string;
   name: string;
   email: string;
+  whatsapp: string;
   subject: string;
   message: string;
   date: string;
