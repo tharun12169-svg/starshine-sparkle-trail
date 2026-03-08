@@ -71,8 +71,6 @@ const App = () => (
 
             {/* Auth pages (no navbar/footer) */}
             <Route path="/admin-login" element={<AdminLogin />} />
-            <Route path="/brand-register" element={<BrandRegister />} />
-            <Route path="/brand-login" element={<BrandLogin />} />
             <Route path="/influencer-login" element={<InfluencerLogin />} />
 
             {/* Admin routes */}

@@ -88,13 +88,10 @@ const Navbar = () => {
               ))}
               <div className="border-t border-border pt-3 mt-1 space-y-2">
                 <Button variant="outline" className="w-full border-primary/30" asChild>
-                  <Link to="/brand-login" onClick={() => setMobileOpen(false)}>Brand Login</Link>
-                </Button>
-                <Button variant="outline" className="w-full border-primary/30" asChild>
                   <Link to="/influencer-login" onClick={() => setMobileOpen(false)}>Influencer Login</Link>
                 </Button>
                 <Button className="w-full gradient-bg border-0 text-primary-foreground" asChild>
-                  <Link to="/brand-register" onClick={() => setMobileOpen(false)}>Get Started</Link>
+                  <Link to="/join-influencer" onClick={() => setMobileOpen(false)}>Join as Influencer</Link>
                 </Button>
               </div>
             </div>
