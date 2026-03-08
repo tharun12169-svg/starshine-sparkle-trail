@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Users, TrendingUp } from "lucide-react";
 
@@ -16,7 +17,19 @@ interface InfluencerCardProps {
   index?: number;
 }
 
-const InfluencerCard = ({ influencer, index = 0 }: InfluencerCardProps) => (
+const InfluencerCard = ({ influencer, index = 0 }: InfluencerCardProps) => {
+  const navigate = useNavigate();
+
+  const handleContact = () => {
+    const brandSession = localStorage.getItem("brand_session");
+    if (!brandSession) {
+      navigate("/brand-login");
+      return;
+    }
+    navigate(`/brand/discover?influencer=${encodeURIComponent(influencer.name)}`);
+  };
+
+  return (
   <motion.div
     initial={{ opacity: 0, y: 30 }}
     whileInView={{ opacity: 1, y: 0 }}
@@ -38,10 +51,11 @@ const InfluencerCard = ({ influencer, index = 0 }: InfluencerCardProps) => (
       <div className="flex items-center gap-1"><TrendingUp className="w-3.5 h-3.5" />{influencer.engagement}</div>
     </div>
     <span className="text-xs text-muted-foreground mb-4">{influencer.platform}</span>
-    <Button size="sm" variant="outline" className="w-full border-primary/30 hover:bg-primary/10 hover:text-primary">
+    <Button size="sm" variant="outline" className="w-full border-primary/30 hover:bg-primary/10 hover:text-primary" onClick={handleContact}>
       Contact
     </Button>
   </motion.div>
-);
+  );
+};
 
 export default InfluencerCard;

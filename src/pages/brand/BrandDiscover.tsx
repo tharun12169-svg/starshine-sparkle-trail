@@ -1,4 +1,5 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -18,9 +19,10 @@ const categories = ["All", "Fashion", "Tech", "Fitness", "Gaming", "Beauty", "Tr
 
 const BrandDiscover = () => {
   const brand = getBrandSession();
+  const [searchParams] = useSearchParams();
   const [platform, setPlatform] = useState("All");
   const [category, setCategory] = useState("All");
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState(searchParams.get("influencer") || "");
   const [, forceUpdate] = useState(0);
   const refresh = () => forceUpdate(n => n + 1);
 
