@@ -203,19 +203,17 @@ export const rejectApplication = (id: string) => {
 
 // ─── Approved Influencers ───
 export const getApprovedInfluencers = (): ApprovedInfluencer[] => {
-  const items = getItems<ApprovedInfluencer>("admin_influencers");
-  if (items.length === 0) {
-    setItems("admin_influencers", seedInfluencers);
-    return seedInfluencers;
-  }
-  return items;
+  return getItems<ApprovedInfluencer>("admin_influencers");
 };
 export const addInfluencer = (inf: Omit<ApprovedInfluencer, "id" | "date" | "status">) => {
   const items = getApprovedInfluencers();
   items.unshift({ ...inf, id: genId(), date: new Date().toISOString(), status: "pending" });
   setItems("admin_influencers", items);
 };
-export const getPublicInfluencers = () => getApprovedInfluencers().filter(i => i.status === "approved");
+export const getPublicInfluencers = (): ApprovedInfluencer[] => {
+  const adminApproved = getApprovedInfluencers().filter(i => i.status === "approved");
+  return [...adminApproved, ...seedInfluencers];
+};
 export const deleteInfluencer = (id: string) => {
   setItems("admin_influencers", getApprovedInfluencers().filter(i => i.id !== id));
 };
