@@ -38,6 +38,7 @@ import BrandAnalytics from "./pages/brand/BrandAnalytics";
 import InfluencerDashboard from "./pages/influencer/InfluencerDashboard";
 import InfluencerCampaigns from "./pages/influencer/InfluencerCampaigns";
 import InfluencerMessages from "./pages/influencer/InfluencerMessages";
+import InfluencerSettings from "./pages/influencer/InfluencerSettings";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
