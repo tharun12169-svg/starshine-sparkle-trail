@@ -1,4 +1,5 @@
 // localStorage-based admin store
+import { seedInfluencers } from "@/data/seedInfluencers";
 
 export interface AdminMessage {
   id: string;
@@ -201,7 +202,14 @@ export const rejectApplication = (id: string) => {
 };
 
 // ─── Approved Influencers ───
-export const getApprovedInfluencers = () => getItems<ApprovedInfluencer>("admin_influencers");
+export const getApprovedInfluencers = (): ApprovedInfluencer[] => {
+  const items = getItems<ApprovedInfluencer>("admin_influencers");
+  if (items.length === 0) {
+    setItems("admin_influencers", seedInfluencers);
+    return seedInfluencers;
+  }
+  return items;
+};
 export const addInfluencer = (inf: Omit<ApprovedInfluencer, "id" | "date" | "status">) => {
   const items = getApprovedInfluencers();
   items.unshift({ ...inf, id: genId(), date: new Date().toISOString(), status: "pending" });
