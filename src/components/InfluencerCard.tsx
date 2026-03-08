@@ -17,7 +17,19 @@ interface InfluencerCardProps {
   index?: number;
 }
 
-const InfluencerCard = ({ influencer, index = 0 }: InfluencerCardProps) => (
+const InfluencerCard = ({ influencer, index = 0 }: InfluencerCardProps) => {
+  const navigate = useNavigate();
+
+  const handleContact = () => {
+    const brandSession = localStorage.getItem("brand_session");
+    if (!brandSession) {
+      navigate("/brand-login");
+      return;
+    }
+    navigate(`/brand/discover?influencer=${encodeURIComponent(influencer.name)}`);
+  };
+
+  return (
   <motion.div
     initial={{ opacity: 0, y: 30 }}
     whileInView={{ opacity: 1, y: 0 }}
