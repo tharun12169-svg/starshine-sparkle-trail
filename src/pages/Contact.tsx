@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import SectionHeading from "@/components/SectionHeading";
-import { Mail, Phone, MapPin, Instagram, Twitter, Linkedin } from "lucide-react";
+import { Mail, Phone, MapPin, Instagram, Twitter, Linkedin, MessageCircle } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 import { addMessage } from "@/lib/adminStore";
@@ -44,7 +44,10 @@ const Contact = () => {
                 <h3 className="font-display font-semibold text-lg mb-4">Contact Information</h3>
                 <div className="space-y-4 text-muted-foreground">
                   <div className="flex items-center gap-3"><Mail className="w-5 h-5 text-primary" /> hello@influencehub.com</div>
-                  <div className="flex items-center gap-3"><Phone className="w-5 h-5 text-primary" /> +1 (555) 123-4567</div>
+                  <a href="https://wa.me/919876543210?text=Hello%2C%20I%20would%20like%20to%20know%20more%20about%20InfluenceHub." target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 hover:text-primary transition-colors">
+                    <MessageCircle className="w-5 h-5 text-primary" /> WhatsApp: +91 98765 43210
+                  </a>
+                  <div className="flex items-center gap-3"><Phone className="w-5 h-5 text-primary" /> +91 98765 43210</div>
                   <div className="flex items-center gap-3"><MapPin className="w-5 h-5 text-primary" /> San Francisco, CA</div>
                 </div>
               </div>
