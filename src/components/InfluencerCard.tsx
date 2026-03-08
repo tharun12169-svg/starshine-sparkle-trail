@@ -21,12 +21,7 @@ const InfluencerCard = ({ influencer, index = 0 }: InfluencerCardProps) => {
   const navigate = useNavigate();
 
   const handleContact = () => {
-    const brandSession = localStorage.getItem("brand_session");
-    if (!brandSession) {
-      navigate("/brand-login");
-      return;
-    }
-    navigate(`/brand/discover?influencer=${encodeURIComponent(influencer.name)}`);
+    navigate("/contact");
   };
 
   return (

@@ -16,8 +16,6 @@ import Pricing from "./pages/Pricing";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import AdminLogin from "./pages/AdminLogin";
-import BrandRegister from "./pages/BrandRegister";
-import BrandLogin from "./pages/BrandLogin";
 import InfluencerLogin from "./pages/InfluencerLogin";
 import AdminLayout from "./components/AdminLayout";
 import BrandLayout from "./components/BrandLayout";
@@ -72,8 +70,6 @@ const App = () => (
 
             {/* Auth pages (no navbar/footer) */}
             <Route path="/admin-login" element={<AdminLogin />} />
-            <Route path="/brand-register" element={<BrandRegister />} />
-            <Route path="/brand-login" element={<BrandLogin />} />
             <Route path="/influencer-login" element={<InfluencerLogin />} />
 
             {/* Admin routes */}
