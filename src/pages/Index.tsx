@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Sparkles } from "lucide-react";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import AnimatedCounter from "@/components/AnimatedCounter";
 import SectionHeading from "@/components/SectionHeading";
 import InfluencerCard from "@/components/InfluencerCard";
@@ -158,6 +159,36 @@ const Index = () => {
             <Button size="lg" variant="secondary" className="text-base px-8" asChild>
               <Link to="/contact">Start Your Campaign <ArrowRight className="w-4 h-4 ml-2" /></Link>
             </Button>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section className="dark-section section-padding">
+        <div className="container mx-auto">
+          <SectionHeading title="Frequently Asked Questions" subtitle="Everything you need to know about InfluenceHub" />
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="max-w-3xl mx-auto">
+            <Accordion type="single" collapsible className="space-y-3">
+              {[
+                { q: "What is InfluenceHub?", a: "InfluenceHub is a platform that connects brands with verified influencers to collaborate on marketing campaigns and grow their online presence." },
+                { q: "Who is InfluenceHub for?", a: "InfluenceHub is designed for brands looking to promote their products and influencers who want to collaborate with brands and monetize their content." },
+                { q: "What makes InfluenceHub different from other platforms?", a: "InfluenceHub focuses on verified influencers, simple collaboration tools, and transparent campaign management between brands and creators." },
+                { q: "Can I find influencers on the platform?", a: "Yes. Brands can browse and connect with approved influencers based on category, platform, engagement rate, and audience reach." },
+                { q: "How does the influencer approval process work?", a: "Influencers can apply to join the platform and their profiles are reviewed by the admin before being approved and displayed publicly." },
+                { q: "What kind of analytics does InfluenceHub provide?", a: "The platform provides insights such as follower count, engagement rate, and platform performance to help brands choose the right influencer." },
+                { q: "How do influencers join the platform?", a: "Influencers can submit their profile through the application form and wait for admin approval before appearing on the platform." },
+                { q: "Is my data secure?", a: "Yes. InfluenceHub follows secure practices to ensure user data and campaign information remain protected." },
+              ].map((faq, i) => (
+                <AccordionItem key={i} value={`faq-${i}`} className="glow-card rounded-xl border-border px-6">
+                  <AccordionTrigger className="text-left font-display font-semibold text-sm md:text-base hover:no-underline">
+                    {faq.q}
+                  </AccordionTrigger>
+                  <AccordionContent className="text-muted-foreground text-sm leading-relaxed">
+                    {faq.a}
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
           </motion.div>
         </div>
       </section>
