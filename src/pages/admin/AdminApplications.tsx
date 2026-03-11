@@ -13,14 +13,19 @@ const AdminApplications = () => {
 
   const refresh = () => setApps(getApplications());
 
-  // Refresh applications on mount and when tab/window regains focus
+  // Refresh applications on mount, focus, storage changes, and polling
   useEffect(() => {
     refresh();
     const onFocus = () => refresh();
+    const onStorage = (e: StorageEvent) => {
+      if (e.key === "admin_applications" || e.key === null) refresh();
+    };
     window.addEventListener("focus", onFocus);
-    const interval = setInterval(refresh, 3000);
+    window.addEventListener("storage", onStorage);
+    const interval = setInterval(refresh, 2000);
     return () => {
       window.removeEventListener("focus", onFocus);
+      window.removeEventListener("storage", onStorage);
       clearInterval(interval);
     };
   }, []);
