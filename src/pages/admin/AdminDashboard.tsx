@@ -1,12 +1,29 @@
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Users, UserCheck, MessageSquare, Megaphone, Clock } from "lucide-react";
 import { getMessages, getApplications, getApprovedInfluencers, getCampaignRequests } from "@/lib/adminStore";
 
 const AdminDashboard = () => {
-  const messages = getMessages();
-  const applications = getApplications();
-  const influencers = getApprovedInfluencers();
-  const campaigns = getCampaignRequests();
+  const [messages, setMessages] = useState(getMessages());
+  const [applications, setApplications] = useState(getApplications());
+  const [influencers, setInfluencers] = useState(getApprovedInfluencers());
+  const [campaigns, setCampaigns] = useState(getCampaignRequests());
+
+  useEffect(() => {
+    const refresh = () => {
+      setMessages(getMessages());
+      setApplications(getApplications());
+      setInfluencers(getApprovedInfluencers());
+      setCampaigns(getCampaignRequests());
+    };
+    refresh();
+    const interval = setInterval(refresh, 3000);
+    window.addEventListener("focus", refresh);
+    return () => {
+      clearInterval(interval);
+      window.removeEventListener("focus", refresh);
+    };
+  }, []);
 
   const pendingApps = applications.filter(a => a.status === "pending");
   const unreadMessages = messages.filter(m => !m.read);
