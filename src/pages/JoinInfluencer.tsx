@@ -43,9 +43,16 @@ const JoinInfluencer = () => {
       toast.error("Instagram must start with @ or https://instagram.com/");
       return;
     }
-    addApplication(form);
-    setSubmitted(true);
-    toast.success("Application submitted successfully!");
+    try {
+      addApplication(form);
+      // Force a storage event for cross-tab sync
+      window.dispatchEvent(new StorageEvent("storage", { key: "admin_applications" }));
+      setSubmitted(true);
+      toast.success("Application submitted successfully!");
+    } catch (err) {
+      console.error("Failed to save application:", err);
+      toast.error("Failed to submit application. Please try again.");
+    }
   };
 
   if (submitted) {

@@ -17,11 +17,18 @@ const AdminDashboard = () => {
       setCampaigns(getCampaignRequests());
     };
     refresh();
-    const interval = setInterval(refresh, 3000);
+    const onStorage = (e: StorageEvent) => {
+      if (!e.key || ["admin_applications", "admin_messages", "admin_influencers", "admin_campaigns"].includes(e.key)) {
+        refresh();
+      }
+    };
+    const interval = setInterval(refresh, 2000);
     window.addEventListener("focus", refresh);
+    window.addEventListener("storage", onStorage);
     return () => {
       clearInterval(interval);
       window.removeEventListener("focus", refresh);
+      window.removeEventListener("storage", onStorage);
     };
   }, []);
 
