@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { getApplications, approveApplication, rejectApplication } from "@/lib/adminStore";
 import { Button } from "@/components/ui/button";
@@ -12,6 +12,18 @@ const AdminApplications = () => {
   const [filter, setFilter] = useState<"all" | "pending" | "approved" | "rejected">("all");
 
   const refresh = () => setApps(getApplications());
+
+  // Refresh applications on mount and when tab/window regains focus
+  useEffect(() => {
+    refresh();
+    const onFocus = () => refresh();
+    window.addEventListener("focus", onFocus);
+    const interval = setInterval(refresh, 3000);
+    return () => {
+      window.removeEventListener("focus", onFocus);
+      clearInterval(interval);
+    };
+  }, []);
 
   const handleApprove = (id: string) => {
     approveApplication(id);
