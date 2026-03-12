@@ -14,7 +14,51 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      influencer_applications: {
+        Row: {
+          bio: string | null
+          category: string
+          created_at: string
+          email: string
+          engagement: string | null
+          followers: string | null
+          id: string
+          instagram: string
+          name: string
+          phone: string | null
+          photo: string | null
+          status: string
+        }
+        Insert: {
+          bio?: string | null
+          category: string
+          created_at?: string
+          email: string
+          engagement?: string | null
+          followers?: string | null
+          id?: string
+          instagram: string
+          name: string
+          phone?: string | null
+          photo?: string | null
+          status?: string
+        }
+        Update: {
+          bio?: string | null
+          category?: string
+          created_at?: string
+          email?: string
+          engagement?: string | null
+          followers?: string | null
+          id?: string
+          instagram?: string
+          name?: string
+          phone?: string | null
+          photo?: string | null
+          status?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
