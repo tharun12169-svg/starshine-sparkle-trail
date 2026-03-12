@@ -7,9 +7,9 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import SectionHeading from "@/components/SectionHeading";
 import PhotoUpload from "@/components/PhotoUpload";
-import { addApplication } from "@/lib/adminStore";
+import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import { CheckCircle, DollarSign, Handshake, Megaphone, Star } from "lucide-react";
+import { CheckCircle, DollarSign, Handshake, Megaphone, Star, Loader2 } from "lucide-react";
 
 const categories = ["Fashion", "Tech", "Fitness", "Gaming", "Beauty", "Travel", "Food"];
 
@@ -22,9 +22,10 @@ const benefits = [
 
 const JoinInfluencer = () => {
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
   const [form, setForm] = useState({
     name: "", email: "", phone: "", instagram: "",
-    category: "", followers: "", engagement: "", bio: "", photo: "", password: "",
+    category: "", followers: "", engagement: "", bio: "", photo: "",
   });
 
   const update = (key: string, value: string) => setForm(prev => ({ ...prev, [key]: value }));
@@ -33,7 +34,7 @@ const JoinInfluencer = () => {
     return value.startsWith("@") || value.startsWith("https://instagram.com/");
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!form.name.trim() || !form.email.trim() || !form.category || !form.instagram.trim()) {
       toast.error("Please fill in all required fields.");
@@ -43,15 +44,34 @@ const JoinInfluencer = () => {
       toast.error("Instagram must start with @ or https://instagram.com/");
       return;
     }
+
+    setSubmitting(true);
     try {
-      addApplication(form);
-      // Force a storage event for cross-tab sync
-      window.dispatchEvent(new StorageEvent("storage", { key: "admin_applications" }));
+      const { error } = await supabase.from("influencer_applications").insert({
+        name: form.name.trim(),
+        email: form.email.trim(),
+        phone: form.phone.trim(),
+        instagram: form.instagram.trim(),
+        category: form.category,
+        followers: form.followers.trim(),
+        engagement: form.engagement.trim(),
+        bio: form.bio.trim(),
+        photo: form.photo,
+      });
+
+      if (error) {
+        console.error("Supabase insert error:", error);
+        toast.error("Failed to submit application. Please try again.");
+        return;
+      }
+
       setSubmitted(true);
       toast.success("Application submitted successfully!");
     } catch (err) {
       console.error("Failed to save application:", err);
       toast.error("Failed to submit application. Please try again.");
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -136,11 +156,6 @@ const JoinInfluencer = () => {
             </div>
 
             <div className="space-y-2">
-              <Label className="text-muted-foreground">Password *</Label>
-              <Input type="password" value={form.password} onChange={e => update("password", e.target.value)} placeholder="Create a password for your account" className="bg-surface-card border-border" required />
-            </div>
-
-            <div className="space-y-2">
               <Label className="text-muted-foreground">Profile Photo (Optional)</Label>
               <PhotoUpload
                 currentPhoto={form.photo}
@@ -155,8 +170,8 @@ const JoinInfluencer = () => {
               <Textarea value={form.bio} onChange={e => update("bio", e.target.value)} placeholder="Tell us about yourself, your content, and your audience..." rows={4} className="bg-surface-card border-border" />
             </div>
 
-            <Button type="submit" className="w-full gradient-bg border-0 text-primary-foreground h-11">
-              Submit Application
+            <Button type="submit" disabled={submitting} className="w-full gradient-bg border-0 text-primary-foreground h-11">
+              {submitting ? <><Loader2 className="w-4 h-4 mr-2 animate-spin" /> Submitting...</> : "Submit Application"}
             </Button>
           </motion.form>
         </div>

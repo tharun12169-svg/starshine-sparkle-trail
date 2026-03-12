@@ -1,48 +1,96 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
-import { getApplications, approveApplication, rejectApplication } from "@/lib/adminStore";
+import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
-import { Check, X, Eye, UserCheck, Clock } from "lucide-react";
+import { Check, X, Eye, UserCheck, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
+interface Application {
+  id: string;
+  name: string;
+  email: string;
+  phone: string | null;
+  instagram: string;
+  category: string;
+  followers: string | null;
+  engagement: string | null;
+  bio: string | null;
+  photo: string | null;
+  status: string;
+  created_at: string;
+}
+
 const AdminApplications = () => {
-  const [apps, setApps] = useState(getApplications());
-  const [viewApp, setViewApp] = useState<typeof apps[0] | null>(null);
+  const [apps, setApps] = useState<Application[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [viewApp, setViewApp] = useState<Application | null>(null);
   const [filter, setFilter] = useState<"all" | "pending" | "approved" | "rejected">("all");
 
-  const refresh = () => setApps(getApplications());
+  const fetchApplications = useCallback(async () => {
+    const { data, error } = await supabase
+      .from("influencer_applications")
+      .select("*")
+      .order("created_at", { ascending: false });
 
-  // Refresh applications on mount, focus, storage changes, and polling
-  useEffect(() => {
-    refresh();
-    const onFocus = () => refresh();
-    const onStorage = (e: StorageEvent) => {
-      if (e.key === "admin_applications" || e.key === null) refresh();
-    };
-    window.addEventListener("focus", onFocus);
-    window.addEventListener("storage", onStorage);
-    const interval = setInterval(refresh, 2000);
-    return () => {
-      window.removeEventListener("focus", onFocus);
-      window.removeEventListener("storage", onStorage);
-      clearInterval(interval);
-    };
+    if (error) {
+      console.error("Error fetching applications:", error);
+      return;
+    }
+    setApps(data || []);
+    setLoading(false);
   }, []);
 
-  const handleApprove = (id: string) => {
-    approveApplication(id);
-    refresh();
-    toast.success("Influencer approved and added to marketplace!");
+  useEffect(() => {
+    fetchApplications();
+    // Real-time subscription for instant updates
+    const channel = supabase
+      .channel("influencer_applications_changes")
+      .on("postgres_changes", { event: "*", schema: "public", table: "influencer_applications" }, () => {
+        fetchApplications();
+      })
+      .subscribe();
+
+    return () => { supabase.removeChannel(channel); };
+  }, [fetchApplications]);
+
+  const handleApprove = async (id: string) => {
+    const { error } = await supabase
+      .from("influencer_applications")
+      .update({ status: "approved" })
+      .eq("id", id);
+
+    if (error) {
+      toast.error("Failed to approve application");
+      return;
+    }
+    toast.success("Influencer approved!");
+    fetchApplications();
   };
 
-  const handleReject = (id: string) => {
-    rejectApplication(id);
-    refresh();
+  const handleReject = async (id: string) => {
+    const { error } = await supabase
+      .from("influencer_applications")
+      .update({ status: "rejected" })
+      .eq("id", id);
+
+    if (error) {
+      toast.error("Failed to reject application");
+      return;
+    }
     toast.success("Application rejected");
+    fetchApplications();
   };
 
   const filtered = filter === "all" ? apps : apps.filter(a => a.status === filter);
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center py-20">
+        <Loader2 className="w-8 h-8 animate-spin text-primary" />
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-4">
@@ -88,11 +136,11 @@ const AdminApplications = () => {
               </div>
 
               <div className="grid grid-cols-2 gap-2 text-sm mb-3">
-                <div><span className="text-muted-foreground">Followers:</span> {app.followers}</div>
-                <div><span className="text-muted-foreground">Engagement:</span> {app.engagement}</div>
+                <div><span className="text-muted-foreground">Followers:</span> {app.followers || "—"}</div>
+                <div><span className="text-muted-foreground">Engagement:</span> {app.engagement || "—"}</div>
               </div>
 
-              <p className="text-sm text-muted-foreground line-clamp-2 mb-4">{app.bio}</p>
+              <p className="text-sm text-muted-foreground line-clamp-2 mb-4">{app.bio || "No bio provided"}</p>
 
               <div className="flex gap-2">
                 <Button size="sm" variant="ghost" onClick={() => setViewApp(app)} className="flex-1"><Eye className="w-4 h-4 mr-1" /> View</Button>
@@ -125,19 +173,19 @@ const AdminApplications = () => {
                 </div>
                 <div>
                   <h4 className="font-semibold text-base">{viewApp.name}</h4>
-                  <p className="text-muted-foreground">{viewApp.email} · {viewApp.phone}</p>
+                  <p className="text-muted-foreground">{viewApp.email} · {viewApp.phone || "No phone"}</p>
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-3">
                 <div><span className="text-muted-foreground">Category:</span> {viewApp.category}</div>
-                <div><span className="text-muted-foreground">Followers:</span> {viewApp.followers}</div>
-                <div><span className="text-muted-foreground">Engagement:</span> {viewApp.engagement}</div>
-                <div><span className="text-muted-foreground">Applied:</span> {new Date(viewApp.date).toLocaleDateString()}</div>
+                <div><span className="text-muted-foreground">Followers:</span> {viewApp.followers || "—"}</div>
+                <div><span className="text-muted-foreground">Engagement:</span> {viewApp.engagement || "—"}</div>
+                <div><span className="text-muted-foreground">Applied:</span> {new Date(viewApp.created_at).toLocaleDateString()}</div>
               </div>
               {viewApp.instagram && <div><span className="text-muted-foreground">Instagram:</span> {viewApp.instagram}</div>}
               <div className="border-t border-border pt-3">
                 <span className="text-muted-foreground">Bio:</span>
-                <p className="mt-1 whitespace-pre-wrap">{viewApp.bio}</p>
+                <p className="mt-1 whitespace-pre-wrap">{viewApp.bio || "No bio provided"}</p>
               </div>
             </div>
           )}
