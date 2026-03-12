@@ -1,38 +1,52 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Users, UserCheck, MessageSquare, Megaphone, Clock } from "lucide-react";
-import { getMessages, getApplications, getApprovedInfluencers, getCampaignRequests } from "@/lib/adminStore";
+import { supabase } from "@/integrations/supabase/client";
+import { getMessages, getApprovedInfluencers, getCampaignRequests } from "@/lib/adminStore";
 
 const AdminDashboard = () => {
   const [messages, setMessages] = useState(getMessages());
-  const [applications, setApplications] = useState(getApplications());
+  const [applications, setApplications] = useState<any[]>([]);
   const [influencers, setInfluencers] = useState(getApprovedInfluencers());
   const [campaigns, setCampaigns] = useState(getCampaignRequests());
 
+  const refreshLocal = () => {
+    setMessages(getMessages());
+    setInfluencers(getApprovedInfluencers());
+    setCampaigns(getCampaignRequests());
+  };
+
+  const fetchApplications = async () => {
+    const { data } = await supabase
+      .from("influencer_applications")
+      .select("*")
+      .order("created_at", { ascending: false });
+    setApplications(data || []);
+  };
+
   useEffect(() => {
-    const refresh = () => {
-      setMessages(getMessages());
-      setApplications(getApplications());
-      setInfluencers(getApprovedInfluencers());
-      setCampaigns(getCampaignRequests());
-    };
-    refresh();
-    const onStorage = (e: StorageEvent) => {
-      if (!e.key || ["admin_applications", "admin_messages", "admin_influencers", "admin_campaigns"].includes(e.key)) {
-        refresh();
-      }
-    };
-    const interval = setInterval(refresh, 2000);
-    window.addEventListener("focus", refresh);
-    window.addEventListener("storage", onStorage);
+    refreshLocal();
+    fetchApplications();
+
+    const interval = setInterval(refreshLocal, 3000);
+    window.addEventListener("focus", refreshLocal);
+
+    // Real-time for applications
+    const channel = supabase
+      .channel("dashboard_applications")
+      .on("postgres_changes", { event: "*", schema: "public", table: "influencer_applications" }, () => {
+        fetchApplications();
+      })
+      .subscribe();
+
     return () => {
       clearInterval(interval);
-      window.removeEventListener("focus", refresh);
-      window.removeEventListener("storage", onStorage);
+      window.removeEventListener("focus", refreshLocal);
+      supabase.removeChannel(channel);
     };
   }, []);
 
-  const pendingApps = applications.filter(a => a.status === "pending");
+  const pendingApps = applications.filter((a: any) => a.status === "pending");
   const unreadMessages = messages.filter(m => !m.read);
 
   const stats = [
@@ -44,7 +58,7 @@ const AdminDashboard = () => {
 
   const recentActivities = [
     ...messages.slice(0, 3).map(m => ({ text: `New message from ${m.name}`, time: m.date, type: "message" as const })),
-    ...pendingApps.slice(0, 3).map(a => ({ text: `${a.name} applied as influencer`, time: a.date, type: "application" as const })),
+    ...pendingApps.slice(0, 3).map((a: any) => ({ text: `${a.name} applied as influencer`, time: a.created_at, type: "application" as const })),
   ].sort((a, b) => new Date(b.time).getTime() - new Date(a.time).getTime()).slice(0, 6);
 
   return (
