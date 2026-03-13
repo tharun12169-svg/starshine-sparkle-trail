@@ -35,7 +35,7 @@ const AdminInfluencers = () => {
   const [influencers, setInfluencers] = useState<Influencer[]>([]);
   const [loading, setLoading] = useState(true);
   const [editingId, setEditingId] = useState<string | null>(null);
-  const [editData, setEditData] = useState({ name: "", category: "", followers: "", engagement: "", instagram: "", photo: "" });
+  const [editData, setEditData] = useState({ name: "", category: "", followers: "", engagement: "", instagram: "", photo: "", phone: "", email: "", reel_promotion_price: "" });
   const [filter, setFilter] = useState<"all" | "pending" | "approved" | "rejected">("all");
 
   const fetchInfluencers = useCallback(async () => {
