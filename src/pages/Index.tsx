@@ -16,6 +16,26 @@ const fadeUp = {
 };
 
 const Index = () => {
+  const [featuredInfluencers, setFeaturedInfluencers] = useState<any[]>([]);
+
+  useEffect(() => {
+    const fetchFeatured = async () => {
+      const { data } = await supabase
+        .from("influencer_applications")
+        .select("*")
+        .eq("status", "approved")
+        .order("created_at", { ascending: false })
+        .limit(3);
+      if (data) {
+        setFeaturedInfluencers(data.map(inf => ({
+          name: inf.name, niche: inf.category, followers: inf.followers || "0",
+          engagement: inf.engagement || "0%", avatar: inf.photo || "", platform: "Instagram",
+        })));
+      }
+    };
+    fetchFeatured();
+  }, []);
+
   return (
     <>
       {/* Hero */}
