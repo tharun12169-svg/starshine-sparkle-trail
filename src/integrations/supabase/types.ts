@@ -27,6 +27,7 @@ export type Database = {
           name: string
           phone: string | null
           photo: string | null
+          reel_promotion_price: string | null
           status: string
         }
         Insert: {
@@ -41,6 +42,7 @@ export type Database = {
           name: string
           phone?: string | null
           photo?: string | null
+          reel_promotion_price?: string | null
           status?: string
         }
         Update: {
@@ -55,6 +57,7 @@ export type Database = {
           name?: string
           phone?: string | null
           photo?: string | null
+          reel_promotion_price?: string | null
           status?: string
         }
         Relationships: []

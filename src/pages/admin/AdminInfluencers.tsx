@@ -22,6 +22,7 @@ interface Influencer {
   photo: string | null;
   status: string;
   created_at: string;
+  reel_promotion_price: string | null;
 }
 
 const statusColors: Record<string, string> = {
@@ -34,7 +35,7 @@ const AdminInfluencers = () => {
   const [influencers, setInfluencers] = useState<Influencer[]>([]);
   const [loading, setLoading] = useState(true);
   const [editingId, setEditingId] = useState<string | null>(null);
-  const [editData, setEditData] = useState({ name: "", category: "", followers: "", engagement: "", instagram: "", photo: "" });
+  const [editData, setEditData] = useState({ name: "", category: "", followers: "", engagement: "", instagram: "", photo: "", phone: "", email: "", reel_promotion_price: "" });
   const [filter, setFilter] = useState<"all" | "pending" | "approved" | "rejected">("all");
 
   const fetchInfluencers = useCallback(async () => {
@@ -88,6 +89,8 @@ const AdminInfluencers = () => {
       name: inf.name, category: inf.category,
       followers: inf.followers || "", engagement: inf.engagement || "",
       instagram: inf.instagram || "", photo: inf.photo || "",
+      phone: inf.phone || "", email: inf.email || "",
+      reel_promotion_price: inf.reel_promotion_price || "",
     });
   };
 
@@ -97,6 +100,8 @@ const AdminInfluencers = () => {
       name: editData.name, category: editData.category,
       followers: editData.followers, engagement: editData.engagement,
       instagram: editData.instagram, photo: editData.photo,
+      phone: editData.phone, email: editData.email,
+      reel_promotion_price: editData.reel_promotion_price,
     }).eq("id", editingId);
     if (error) {
       toast.error("Failed to update influencer");
@@ -166,6 +171,14 @@ const AdminInfluencers = () => {
                     <div><Label className="text-xs">Followers</Label><Input value={editData.followers} onChange={e => setEditData({ ...editData, followers: e.target.value })} className="h-8 text-sm" /></div>
                     <div><Label className="text-xs">Engagement</Label><Input value={editData.engagement} onChange={e => setEditData({ ...editData, engagement: e.target.value })} className="h-8 text-sm" /></div>
                   </div>
+                  <div className="grid grid-cols-2 gap-2">
+                    <div><Label className="text-xs">Phone Number</Label><Input value={editData.phone} onChange={e => setEditData({ ...editData, phone: e.target.value })} className="h-8 text-sm" /></div>
+                    <div><Label className="text-xs">Email</Label><Input value={editData.email} onChange={e => setEditData({ ...editData, email: e.target.value })} className="h-8 text-sm" /></div>
+                  </div>
+                  <div>
+                    <Label className="text-xs">Reel Promotion Price (₹)</Label>
+                    <Input value={editData.reel_promotion_price} onChange={e => setEditData({ ...editData, reel_promotion_price: e.target.value })} className="h-8 text-sm" placeholder="e.g. 2000" />
+                  </div>
                   <div className="flex gap-2">
                     <Button size="sm" className="flex-1 gradient-bg border-0 text-primary-foreground" onClick={saveEdit}><Check className="w-4 h-4 mr-1" /> Save</Button>
                     <Button size="sm" variant="outline" className="flex-1" onClick={() => setEditingId(null)}><X className="w-4 h-4 mr-1" /> Cancel</Button>
@@ -189,10 +202,19 @@ const AdminInfluencers = () => {
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-2 gap-2 text-sm mb-3">
+                  <div className="grid grid-cols-2 gap-2 text-sm mb-2">
                     <div><span className="text-muted-foreground">Followers:</span> {inf.followers || "—"}</div>
                     <div><span className="text-muted-foreground">Engagement:</span> {inf.engagement || "—"}</div>
                   </div>
+                  <div className="grid grid-cols-2 gap-2 text-sm mb-2">
+                    <div><span className="text-muted-foreground">Phone:</span> {inf.phone || "—"}</div>
+                    <div><span className="text-muted-foreground">Email:</span> {inf.email || "—"}</div>
+                  </div>
+                  {inf.reel_promotion_price && (
+                    <div className="text-sm mb-3">
+                      <span className="text-muted-foreground">Reel Price:</span> ₹{inf.reel_promotion_price}
+                    </div>
+                  )}
 
                   {inf.instagram && (
                     <a href={`https://instagram.com/${inf.instagram.replace("@", "")}`} target="_blank" rel="noopener noreferrer"

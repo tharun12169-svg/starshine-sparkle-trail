@@ -28,6 +28,7 @@ const Marketplace = () => {
           engagement: inf.engagement || "0%",
           avatar: inf.photo || "",
           platform: "Instagram",
+          reelPrice: (inf as any).reel_promotion_price || "",
         })));
       }
       setLoading(false);

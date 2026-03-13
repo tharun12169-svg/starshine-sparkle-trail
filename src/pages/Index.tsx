@@ -30,6 +30,7 @@ const Index = () => {
         setFeaturedInfluencers(data.map(inf => ({
           name: inf.name, niche: inf.category, followers: inf.followers || "0",
           engagement: inf.engagement || "0%", avatar: inf.photo || "", platform: "Instagram",
+          reelPrice: (inf as any).reel_promotion_price || "",
         })));
       }
     };

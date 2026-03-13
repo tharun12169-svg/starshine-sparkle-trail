@@ -26,6 +26,7 @@ const JoinInfluencer = () => {
   const [form, setForm] = useState({
     name: "", email: "", phone: "", instagram: "",
     category: "", followers: "", engagement: "", bio: "", photo: "",
+    reel_promotion_price: "",
   });
 
   const update = (key: string, value: string) => setForm(prev => ({ ...prev, [key]: value }));
@@ -57,6 +58,7 @@ const JoinInfluencer = () => {
         engagement: form.engagement.trim(),
         bio: form.bio.trim(),
         photo: form.photo,
+        reel_promotion_price: form.reel_promotion_price.trim(),
       });
 
       if (error) {
@@ -153,6 +155,11 @@ const JoinInfluencer = () => {
             <div className="space-y-2">
               <Label className="text-muted-foreground">Instagram Username or Profile Link *</Label>
               <Input value={form.instagram} onChange={e => update("instagram", e.target.value)} placeholder="@username or https://instagram.com/username" className="bg-surface-card border-border" required />
+            </div>
+
+            <div className="space-y-2">
+              <Label className="text-muted-foreground">Price for 1 Reel Promotion (₹)</Label>
+              <Input value={form.reel_promotion_price} onChange={e => update("reel_promotion_price", e.target.value)} placeholder="e.g. 2000" className="bg-surface-card border-border" />
             </div>
 
             <div className="space-y-2">
