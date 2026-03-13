@@ -10,6 +10,7 @@ export interface Influencer {
   engagement: string;
   avatar: string;
   platform: string;
+  reelPrice?: string;
 }
 
 interface InfluencerCardProps {
