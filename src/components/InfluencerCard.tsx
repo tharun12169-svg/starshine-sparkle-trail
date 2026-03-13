@@ -46,7 +46,11 @@ const InfluencerCard = ({ influencer, index = 0 }: InfluencerCardProps) => {
       <div className="flex items-center gap-1"><Users className="w-3.5 h-3.5" />{influencer.followers}</div>
       <div className="flex items-center gap-1"><TrendingUp className="w-3.5 h-3.5" />{influencer.engagement}</div>
     </div>
-    <span className="text-xs text-muted-foreground mb-4">{influencer.platform}</span>
+    <span className="text-xs text-muted-foreground mb-2">{influencer.platform}</span>
+    {influencer.reelPrice && (
+      <span className="text-xs font-semibold text-primary mb-4">₹{influencer.reelPrice} per Reel</span>
+    )}
+    {!influencer.reelPrice && <span className="mb-2" />}
     <Button size="sm" variant="outline" className="w-full border-primary/30 hover:bg-primary/10 hover:text-primary" onClick={handleContact}>
       Contact
     </Button>
