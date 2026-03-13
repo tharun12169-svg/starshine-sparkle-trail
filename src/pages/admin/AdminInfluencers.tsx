@@ -171,6 +171,14 @@ const AdminInfluencers = () => {
                     <div><Label className="text-xs">Followers</Label><Input value={editData.followers} onChange={e => setEditData({ ...editData, followers: e.target.value })} className="h-8 text-sm" /></div>
                     <div><Label className="text-xs">Engagement</Label><Input value={editData.engagement} onChange={e => setEditData({ ...editData, engagement: e.target.value })} className="h-8 text-sm" /></div>
                   </div>
+                  <div className="grid grid-cols-2 gap-2">
+                    <div><Label className="text-xs">Phone Number</Label><Input value={editData.phone} onChange={e => setEditData({ ...editData, phone: e.target.value })} className="h-8 text-sm" /></div>
+                    <div><Label className="text-xs">Email</Label><Input value={editData.email} onChange={e => setEditData({ ...editData, email: e.target.value })} className="h-8 text-sm" /></div>
+                  </div>
+                  <div>
+                    <Label className="text-xs">Reel Promotion Price (₹)</Label>
+                    <Input value={editData.reel_promotion_price} onChange={e => setEditData({ ...editData, reel_promotion_price: e.target.value })} className="h-8 text-sm" placeholder="e.g. 2000" />
+                  </div>
                   <div className="flex gap-2">
                     <Button size="sm" className="flex-1 gradient-bg border-0 text-primary-foreground" onClick={saveEdit}><Check className="w-4 h-4 mr-1" /> Save</Button>
                     <Button size="sm" variant="outline" className="flex-1" onClick={() => setEditingId(null)}><X className="w-4 h-4 mr-1" /> Cancel</Button>
