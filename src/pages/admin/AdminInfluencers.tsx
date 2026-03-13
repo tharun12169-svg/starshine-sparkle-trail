@@ -22,6 +22,7 @@ interface Influencer {
   photo: string | null;
   status: string;
   created_at: string;
+  reel_promotion_price: string | null;
 }
 
 const statusColors: Record<string, string> = {
