@@ -1,0 +1,1 @@
+ALTER TABLE public.influencer_applications ADD COLUMN IF NOT EXISTS reel_promotion_price text DEFAULT '' ;
