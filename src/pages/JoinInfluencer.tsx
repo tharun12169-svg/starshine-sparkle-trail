@@ -158,6 +158,11 @@ const JoinInfluencer = () => {
             </div>
 
             <div className="space-y-2">
+              <Label className="text-muted-foreground">Price for 1 Reel Promotion (₹)</Label>
+              <Input value={form.reel_promotion_price} onChange={e => update("reel_promotion_price", e.target.value)} placeholder="e.g. 2000" className="bg-surface-card border-border" />
+            </div>
+
+            <div className="space-y-2">
               <Label className="text-muted-foreground">Profile Photo (Optional)</Label>
               <PhotoUpload
                 currentPhoto={form.photo}

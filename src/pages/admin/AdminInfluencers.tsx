@@ -202,10 +202,19 @@ const AdminInfluencers = () => {
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-2 gap-2 text-sm mb-3">
+                  <div className="grid grid-cols-2 gap-2 text-sm mb-2">
                     <div><span className="text-muted-foreground">Followers:</span> {inf.followers || "—"}</div>
                     <div><span className="text-muted-foreground">Engagement:</span> {inf.engagement || "—"}</div>
                   </div>
+                  <div className="grid grid-cols-2 gap-2 text-sm mb-2">
+                    <div><span className="text-muted-foreground">Phone:</span> {inf.phone || "—"}</div>
+                    <div><span className="text-muted-foreground">Email:</span> {inf.email || "—"}</div>
+                  </div>
+                  {inf.reel_promotion_price && (
+                    <div className="text-sm mb-3">
+                      <span className="text-muted-foreground">Reel Price:</span> ₹{inf.reel_promotion_price}
+                    </div>
+                  )}
 
                   {inf.instagram && (
                     <a href={`https://instagram.com/${inf.instagram.replace("@", "")}`} target="_blank" rel="noopener noreferrer"
