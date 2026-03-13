@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -7,7 +8,7 @@ import AnimatedCounter from "@/components/AnimatedCounter";
 import SectionHeading from "@/components/SectionHeading";
 import InfluencerCard from "@/components/InfluencerCard";
 import { testimonials, trustedBrands } from "@/data/siteData";
-import { getPublicInfluencers } from "@/lib/adminStore";
+import { supabase } from "@/integrations/supabase/client";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 30 },
@@ -15,6 +16,26 @@ const fadeUp = {
 };
 
 const Index = () => {
+  const [featuredInfluencers, setFeaturedInfluencers] = useState<any[]>([]);
+
+  useEffect(() => {
+    const fetchFeatured = async () => {
+      const { data } = await supabase
+        .from("influencer_applications")
+        .select("*")
+        .eq("status", "approved")
+        .order("created_at", { ascending: false })
+        .limit(3);
+      if (data) {
+        setFeaturedInfluencers(data.map(inf => ({
+          name: inf.name, niche: inf.category, followers: inf.followers || "0",
+          engagement: inf.engagement || "0%", avatar: inf.photo || "", platform: "Instagram",
+        })));
+      }
+    };
+    fetchFeatured();
+  }, []);
+
   return (
     <>
       {/* Hero */}
@@ -86,27 +107,22 @@ const Index = () => {
       <section className="dark-section section-padding">
         <div className="container mx-auto">
           <SectionHeading title="Featured Influencers" subtitle="Top creators ready to amplify your brand" />
-          {(() => {
-            const approved = getPublicInfluencers().map(inf => ({
-              name: inf.name, niche: inf.category, followers: inf.followers, engagement: inf.engagement, avatar: inf.photo || "", platform: inf.platform,
-            }));
-            return approved.length > 0 ? (
-              <>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                  {approved.map((inf, i) => (
-                    <InfluencerCard key={i} influencer={inf} index={i} />
-                  ))}
-                </div>
-                <div className="text-center mt-10">
-                  <Button variant="outline" className="border-primary/30 hover:bg-primary/10" asChild>
-                    <Link to="/marketplace">View All Influencers <ArrowRight className="w-4 h-4 ml-2" /></Link>
-                  </Button>
-                </div>
-              </>
-            ) : (
-              <p className="text-center text-muted-foreground">No approved influencers available yet.</p>
-            );
-          })()}
+          {featuredInfluencers.length > 0 ? (
+            <>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {featuredInfluencers.map((inf, i) => (
+                  <InfluencerCard key={i} influencer={inf} index={i} />
+                ))}
+              </div>
+              <div className="text-center mt-10">
+                <Button variant="outline" className="border-primary/30 hover:bg-primary/10" asChild>
+                  <Link to="/marketplace">View All Influencers <ArrowRight className="w-4 h-4 ml-2" /></Link>
+                </Button>
+              </div>
+            </>
+          ) : (
+            <p className="text-center text-muted-foreground">No approved influencers available yet.</p>
+          )}
         </div>
       </section>
 
