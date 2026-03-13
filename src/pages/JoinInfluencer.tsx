@@ -26,6 +26,7 @@ const JoinInfluencer = () => {
   const [form, setForm] = useState({
     name: "", email: "", phone: "", instagram: "",
     category: "", followers: "", engagement: "", bio: "", photo: "",
+    reel_promotion_price: "",
   });
 
   const update = (key: string, value: string) => setForm(prev => ({ ...prev, [key]: value }));
