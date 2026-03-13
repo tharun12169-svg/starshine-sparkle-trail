@@ -58,6 +58,7 @@ const JoinInfluencer = () => {
         engagement: form.engagement.trim(),
         bio: form.bio.trim(),
         photo: form.photo,
+        reel_promotion_price: form.reel_promotion_price.trim(),
       });
 
       if (error) {
