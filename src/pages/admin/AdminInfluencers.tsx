@@ -100,6 +100,8 @@ const AdminInfluencers = () => {
       name: editData.name, category: editData.category,
       followers: editData.followers, engagement: editData.engagement,
       instagram: editData.instagram, photo: editData.photo,
+      phone: editData.phone, email: editData.email,
+      reel_promotion_price: editData.reel_promotion_price,
     }).eq("id", editingId);
     if (error) {
       toast.error("Failed to update influencer");
