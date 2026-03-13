@@ -1,57 +1,121 @@
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
-import { getApprovedInfluencers, deleteInfluencer, updateInfluencer } from "@/lib/adminStore";
+import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import PhotoUpload from "@/components/PhotoUpload";
-import { Users, Trash2, Edit, ExternalLink, X, Check, ShieldCheck, Clock, ShieldX } from "lucide-react";
+import { Users, Trash2, Edit, ExternalLink, X, Check, ShieldCheck, Clock, ShieldX, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { Link } from "react-router-dom";
 
-const statusColors = {
+interface Influencer {
+  id: string;
+  name: string;
+  email: string;
+  phone: string | null;
+  instagram: string;
+  category: string;
+  followers: string | null;
+  engagement: string | null;
+  bio: string | null;
+  photo: string | null;
+  status: string;
+  created_at: string;
+}
+
+const statusColors: Record<string, string> = {
   pending: "bg-amber-500/20 text-amber-400",
   approved: "bg-emerald-500/20 text-emerald-400",
   rejected: "bg-red-500/20 text-red-400",
 };
 
 const AdminInfluencers = () => {
-  const [influencers, setInfluencers] = useState(getApprovedInfluencers());
+  const [influencers, setInfluencers] = useState<Influencer[]>([]);
+  const [loading, setLoading] = useState(true);
   const [editingId, setEditingId] = useState<string | null>(null);
-  const [editData, setEditData] = useState({ name: "", category: "", platform: "", followers: "", engagement: "", profileLink: "", photo: "" });
+  const [editData, setEditData] = useState({ name: "", category: "", followers: "", engagement: "", instagram: "", photo: "" });
   const [filter, setFilter] = useState<"all" | "pending" | "approved" | "rejected">("all");
 
-  const refresh = () => setInfluencers(getApprovedInfluencers());
+  const fetchInfluencers = useCallback(async () => {
+    const { data, error } = await supabase
+      .from("influencer_applications")
+      .select("*")
+      .order("created_at", { ascending: false });
 
-  const handleDelete = (id: string) => {
-    deleteInfluencer(id);
-    refresh();
+    if (error) {
+      console.error("Error fetching influencers:", error);
+      return;
+    }
+    setInfluencers(data || []);
+    setLoading(false);
+  }, []);
+
+  useEffect(() => {
+    fetchInfluencers();
+    const channel = supabase
+      .channel("admin_influencers_changes")
+      .on("postgres_changes", { event: "*", schema: "public", table: "influencer_applications" }, () => {
+        fetchInfluencers();
+      })
+      .subscribe();
+    return () => { supabase.removeChannel(channel); };
+  }, [fetchInfluencers]);
+
+  const handleDelete = async (id: string) => {
+    const { error } = await supabase.from("influencer_applications").delete().eq("id", id);
+    if (error) {
+      toast.error("Failed to delete influencer");
+      return;
+    }
     toast.success("Influencer removed");
+    fetchInfluencers();
   };
 
-  const handleStatusChange = (id: string, status: "pending" | "approved" | "rejected") => {
-    updateInfluencer(id, { status });
-    refresh();
+  const handleStatusChange = async (id: string, status: string) => {
+    const { error } = await supabase.from("influencer_applications").update({ status }).eq("id", id);
+    if (error) {
+      toast.error("Failed to update status");
+      return;
+    }
     toast.success(`Status changed to ${status}`);
+    fetchInfluencers();
   };
 
-  const startEdit = (inf: typeof influencers[0]) => {
+  const startEdit = (inf: Influencer) => {
     setEditingId(inf.id);
     setEditData({
-      name: inf.name, category: inf.category, platform: inf.platform,
-      followers: inf.followers, engagement: inf.engagement, profileLink: inf.profileLink || "", photo: inf.photo || "",
+      name: inf.name, category: inf.category,
+      followers: inf.followers || "", engagement: inf.engagement || "",
+      instagram: inf.instagram || "", photo: inf.photo || "",
     });
   };
 
-  const saveEdit = () => {
+  const saveEdit = async () => {
     if (!editingId) return;
-    updateInfluencer(editingId, editData);
+    const { error } = await supabase.from("influencer_applications").update({
+      name: editData.name, category: editData.category,
+      followers: editData.followers, engagement: editData.engagement,
+      instagram: editData.instagram, photo: editData.photo,
+    }).eq("id", editingId);
+    if (error) {
+      toast.error("Failed to update influencer");
+      return;
+    }
     setEditingId(null);
-    refresh();
     toast.success("Influencer updated");
+    fetchInfluencers();
   };
 
   const filtered = filter === "all" ? influencers : influencers.filter(i => i.status === filter);
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center py-20">
+        <Loader2 className="w-8 h-8 animate-spin text-primary" />
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-4">
@@ -96,13 +160,12 @@ const AdminInfluencers = () => {
                   <div><Label className="text-xs">Name</Label><Input value={editData.name} onChange={e => setEditData({ ...editData, name: e.target.value })} className="h-8 text-sm" /></div>
                   <div className="grid grid-cols-2 gap-2">
                     <div><Label className="text-xs">Category</Label><Input value={editData.category} onChange={e => setEditData({ ...editData, category: e.target.value })} className="h-8 text-sm" /></div>
-                    <div><Label className="text-xs">Platform</Label><Input value={editData.platform} onChange={e => setEditData({ ...editData, platform: e.target.value })} className="h-8 text-sm" /></div>
+                    <div><Label className="text-xs">Instagram</Label><Input value={editData.instagram} onChange={e => setEditData({ ...editData, instagram: e.target.value })} className="h-8 text-sm" /></div>
                   </div>
                   <div className="grid grid-cols-2 gap-2">
                     <div><Label className="text-xs">Followers</Label><Input value={editData.followers} onChange={e => setEditData({ ...editData, followers: e.target.value })} className="h-8 text-sm" /></div>
                     <div><Label className="text-xs">Engagement</Label><Input value={editData.engagement} onChange={e => setEditData({ ...editData, engagement: e.target.value })} className="h-8 text-sm" /></div>
                   </div>
-                  <div><Label className="text-xs">Contact Link</Label><Input value={editData.profileLink} onChange={e => setEditData({ ...editData, profileLink: e.target.value })} className="h-8 text-sm" /></div>
                   <div className="flex gap-2">
                     <Button size="sm" className="flex-1 gradient-bg border-0 text-primary-foreground" onClick={saveEdit}><Check className="w-4 h-4 mr-1" /> Save</Button>
                     <Button size="sm" variant="outline" className="flex-1" onClick={() => setEditingId(null)}><X className="w-4 h-4 mr-1" /> Cancel</Button>
@@ -119,27 +182,25 @@ const AdminInfluencers = () => {
                       <p className="text-xs text-muted-foreground">{inf.email}</p>
                       <div className="flex items-center gap-2 mt-1 flex-wrap">
                         <span className="text-xs gradient-bg text-primary-foreground px-2 py-0.5 rounded-full">{inf.category}</span>
-                        <span className="text-xs text-muted-foreground">{inf.platform}</span>
-                        <span className={`text-xs px-2 py-0.5 rounded-full ${statusColors[inf.status || "pending"]}`}>
-                          {inf.status || "pending"}
+                        <span className={`text-xs px-2 py-0.5 rounded-full ${statusColors[inf.status] || statusColors.pending}`}>
+                          {inf.status}
                         </span>
                       </div>
                     </div>
                   </div>
 
                   <div className="grid grid-cols-2 gap-2 text-sm mb-3">
-                    <div><span className="text-muted-foreground">Followers:</span> {inf.followers}</div>
-                    <div><span className="text-muted-foreground">Engagement:</span> {inf.engagement}</div>
+                    <div><span className="text-muted-foreground">Followers:</span> {inf.followers || "—"}</div>
+                    <div><span className="text-muted-foreground">Engagement:</span> {inf.engagement || "—"}</div>
                   </div>
 
-                  {inf.profileLink && (
-                    <a href={inf.profileLink} target="_blank" rel="noopener noreferrer"
+                  {inf.instagram && (
+                    <a href={`https://instagram.com/${inf.instagram.replace("@", "")}`} target="_blank" rel="noopener noreferrer"
                       className="text-xs text-primary flex items-center gap-1 mb-3 hover:underline">
-                      <ExternalLink className="w-3 h-3" /> Profile Link
+                      <ExternalLink className="w-3 h-3" /> {inf.instagram}
                     </a>
                   )}
 
-                  {/* Status controls */}
                   <div className="flex gap-1 mb-3">
                     <Button size="sm" variant={inf.status === "approved" ? "default" : "outline"}
                       className={inf.status === "approved" ? "bg-emerald-600 hover:bg-emerald-700 text-white border-0 flex-1" : "border-primary/30 flex-1"}

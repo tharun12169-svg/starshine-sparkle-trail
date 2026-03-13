@@ -1,0 +1,1 @@
+CREATE POLICY "Anyone can delete applications" ON public.influencer_applications FOR DELETE TO public USING (true);
