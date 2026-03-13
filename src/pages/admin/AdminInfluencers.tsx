@@ -89,6 +89,8 @@ const AdminInfluencers = () => {
       name: inf.name, category: inf.category,
       followers: inf.followers || "", engagement: inf.engagement || "",
       instagram: inf.instagram || "", photo: inf.photo || "",
+      phone: inf.phone || "", email: inf.email || "",
+      reel_promotion_price: inf.reel_promotion_price || "",
     });
   };
 
